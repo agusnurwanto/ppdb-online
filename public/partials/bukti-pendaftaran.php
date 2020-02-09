@@ -2,10 +2,55 @@
     $current_user = wp_get_current_user();
     $user_meta = get_user_meta ( $current_user->ID);
     $udata = get_userdata( $current_user->ID );
+    $option_ppdb = get_option('ppdb_options');
+
     $registered = $udata->user_registered;
+    $no_pendaftaran = '';
+    if(!empty($option_ppdb['no_pendaftaran']) && !empty($user_meta[$option_ppdb['no_pendaftaran']])){
+        $no_pendaftaran = $user_meta[$option_ppdb['no_pendaftaran']][0];
+    }
+    $tempat_lahir = '';
+    if(!empty($option_ppdb['tempat_lahir']) && !empty($user_meta[$option_ppdb['tempat_lahir']])){
+        $tempat_lahir = $user_meta[$option_ppdb['tempat_lahir']][0];
+    }
+    $tanggal_lahir = '';
+    if(!empty($option_ppdb['tanggal_lahir']) && !empty($user_meta[$option_ppdb['tanggal_lahir']])){
+        $tanggal_lahir = $user_meta[$option_ppdb['tanggal_lahir']][0];
+    }
+    $jenis_kelamin = '';
+    if(!empty($option_ppdb['jenis_kelamin']) && !empty($user_meta[$option_ppdb['jenis_kelamin']])){
+        $jenis_kelamin = unserialize($user_meta[$option_ppdb['jenis_kelamin']][0]);
+        $jenis_kelamin = $jenis_kelamin[0];
+    }
+    $asal_sekolah = '';
+    if(!empty($option_ppdb['asal_sekolah']) && !empty($user_meta[$option_ppdb['asal_sekolah']])){
+        $asal_sekolah = $user_meta[$option_ppdb['asal_sekolah']][0];
+    }
+    $nisn = '';
+    if(!empty($option_ppdb['nisn']) && !empty($user_meta[$option_ppdb['nisn']])){
+        $nisn = $user_meta[$option_ppdb['nisn']][0];
+    }
+    $alamat = '';
+    if(!empty($option_ppdb['alamat']) && !empty($user_meta[$option_ppdb['alamat']])){
+        $alamat = $user_meta[$option_ppdb['alamat']][0];
+    }
+    $no_tlp = '';
+    if(!empty($option_ppdb['no_tlp']) && !empty($user_meta[$option_ppdb['no_tlp']])){
+        $no_tlp = $user_meta[$option_ppdb['no_tlp']][0];
+    }
 ?>
 <div id="wrap-pendaftaran">
     <style type="text/css">
+        table {
+            border-collapse: collapse;
+            margin: 0 0 1.5em;
+            width: 100%;
+        }
+        th, td {
+            border: 0;
+            padding: 0.4em;
+            text-align: left;
+        }
         @page { margin: 0.79in }
 		p { margin-bottom: 0.1in; direction: ltr; line-height: 120%; text-align: left; orphans: 2; widows: 2 }
 		.data-siswa td {
@@ -31,6 +76,7 @@
             height: auto;
             background: #fff;
             width: 100%;
+            z-index: 111;
         }
         header {
             display: none;
@@ -46,7 +92,7 @@
             border: 0;
         }
     </style>
-    <div style="width: 651px; border: 1px solid #000; padding: 10px; margin: auto; margin-top: 20px; margin-bottom: 20px;">
+    <div style="width: 700px; border: 1px solid #000; padding: 10px; margin: 10px auto;">
         <table style="width: 100%; margin: 0;">
             <tr valign="top">
                 <td>
@@ -111,7 +157,7 @@
         		<tr>
         			<td>NO. PENDAFTARAN</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $no_pendaftaran; ?></td>
         		</tr>
         		<tr>
         			<td>NAMA LENGKAP</td>
@@ -121,32 +167,32 @@
         		<tr>
         			<td>TEMPAT TANGGAL LAHIR</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $tempat_lahir.', '.$tanggal_lahir; ?></td>
         		</tr>
         		<tr>
         			<td>JENIS KELAMIN</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $jenis_kelamin; ?></td>
         		</tr>
         		<tr>
         			<td>ASAL SEKOLAH</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $asal_sekolah; ?></td>
         		</tr>
         		<tr>
         			<td>NISN</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $nisn; ?></td>
         		</tr>
         		<tr>
         			<td>ALAMAT RUMAH</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $alamat; ?></td>
         		</tr>
         		<tr>
         			<td>NO. TELP</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $no_tlp; ?></td>
         		</tr>
         	</tbody>
         </table>
@@ -274,3 +320,8 @@
         </table>
     </div>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('body').html(jQuery('#wrap-pendaftaran'));
+    });
+</script>
