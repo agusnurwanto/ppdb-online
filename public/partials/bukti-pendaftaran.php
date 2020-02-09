@@ -1,3 +1,9 @@
+<?php
+    $current_user = wp_get_current_user();
+    $user_meta = get_user_meta ( $current_user->ID);
+    $udata = get_userdata( $current_user->ID );
+    $registered = $udata->user_registered;
+?>
 <div id="wrap-pendaftaran">
     <style type="text/css">
         @page { margin: 0.79in }
@@ -99,8 +105,8 @@
         	<tbody>
         		<tr>
         			<td style="width: 215px;">TANGGAL PENDAFTARAN</td>
-        			<td>:</td>
-        			<td></td>
+        			<td style="width: 15px;">:</td>
+        			<td><?php echo date( "Y-m-d H:i:s", strtotime( $registered ) ); ?></td>
         		</tr>
         		<tr>
         			<td>NO. PENDAFTARAN</td>
@@ -110,7 +116,7 @@
         		<tr>
         			<td>NAMA LENGKAP</td>
         			<td>:</td>
-        			<td></td>
+        			<td><?php echo $current_user->user_firstname; ?></td>
         		</tr>
         		<tr>
         			<td>TEMPAT TANGGAL LAHIR</td>
@@ -226,7 +232,7 @@
         <table style="width: 100%">
             <tr valign="top">
                 <td style="border: none; padding: 0in" width="288">
-                    <p align="center" lang="en-US" style="margin-bottom: 0in">
+                    <p lang="en-US" style="margin-bottom: 0in; text-align: center">
                         <font face="Times New Roman, serif">
                             <font size="3" style="font-size: 12pt">
                                 Tanggal Verifikasi : ......................................
@@ -246,7 +252,7 @@
                 </td>
                 <td style="border: none; padding: 0in" width="71"></td>
                 <td style="border: none; padding: 0in" width="241">
-                    <p align="center" lang="en-US" style="margin-bottom: 0in">
+                    <p lang="en-US" style="margin-bottom: 0in; text-align: center">
                         <font face="Times New Roman, serif">
                             <font size="3" style="font-size: 12pt">
                                 ................., ..........................2020

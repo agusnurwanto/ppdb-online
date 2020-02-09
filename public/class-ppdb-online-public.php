@@ -130,8 +130,23 @@ class Ppdb_Online_Public {
 	} 
 
 	public function bukti_pendaftaran() {
-		$url = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
-		require_once $url;
+		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
+		require_once $ret;
+	}
+
+	function menu_bukti_pendaftaran( $args ) {
+		$option_ppdb = get_option('ppdb_options');
+		$url_bukti_pendaftaran = 'Halaman bukti pendaftaran belum di setting. Harap hubungi administrator!';
+		if(!empty($option_ppdb['bukti_pendaftaran'])){
+			$url_bukti_pendaftaran = '
+			<div style="text-align: center; padding: 10px;">
+				<a href="'.esc_url( get_page_link( $option_ppdb['bukti_pendaftaran'] ) ).'" target="_blank">
+					<button class="button button-primary">Cetak Bukti Pendaftaran</button>
+				</a>
+			</div>
+			';
+		}
+		echo $url_bukti_pendaftaran;
 	}
 
 }

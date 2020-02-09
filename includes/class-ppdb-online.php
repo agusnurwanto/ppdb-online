@@ -156,6 +156,7 @@ class Ppdb_Online {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu_pbdb' );
 
 	}
 
@@ -175,6 +176,8 @@ class Ppdb_Online {
 		
 		add_shortcode( 'daftar-siswa', array($plugin_public, 'daftar_siswa_shortcode' ));
 		add_shortcode( 'bukti-pendaftaran', array($plugin_public, 'bukti_pendaftaran' ));
+
+		$this->loader->add_action( 'um_profile_menu',  $plugin_public, 'menu_bukti_pendaftaran' );
 
 	}
 

@@ -100,4 +100,36 @@ class Ppdb_Online_Admin {
 
 	}
 
+	function admin_menu_pbdb() {
+	    add_menu_page(
+	        __( 'PPDB Online', 'textdomain' ),
+	        'PPDB Online',
+	        'manage_options', // https://wordpress.org/plugins/members/ => untuk membuat role dan capability
+	        'setting_ppdb', //slug
+	        array($this, 'setting_ppdb_page'), // nama fungsi
+	        'dashicons-media-spreadsheet', // https://developer.wordpress.org/resource/dashicons/ atau link ke icon
+	        6
+	    );
+
+	    // https://developer.wordpress.org/reference/functions/add_submenu_page/
+	    add_submenu_page(
+	        'setting_ppdb',
+	        __( 'Detail', 'textdomain' ),
+	        __( 'Detail', 'textdomain' ),
+	        'manage_options',
+	        'tentang_ppdb',
+	        array($this, 'tentang_ppdb_page')
+	    );
+	}
+
+	function setting_ppdb_page(){
+		$path = plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ppdb-online-admin-display.php';
+		require_once $path;
+	}
+
+	function tentang_ppdb_page(){
+		$path = plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/tentang-ppdb.php';
+		require_once $path;
+	}
+
 }
