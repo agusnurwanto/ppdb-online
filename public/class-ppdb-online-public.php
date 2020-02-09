@@ -129,4 +129,9 @@ class Ppdb_Online_Public {
 		return $return;
 	} 
 
+	public function bukti_pendaftaran() {
+		$url = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
+		require_once $url;
+	}
+
 }

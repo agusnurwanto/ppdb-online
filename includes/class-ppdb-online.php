@@ -174,6 +174,7 @@ class Ppdb_Online {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		
 		add_shortcode( 'daftar-siswa', array($plugin_public, 'daftar_siswa_shortcode' ));
+		add_shortcode( 'bukti-pendaftaran', array($plugin_public, 'bukti_pendaftaran' ));
 
 	}
 
