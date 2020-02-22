@@ -157,6 +157,7 @@ class Ppdb_Online {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu_pbdb' );
+		$this->loader->add_action( 'user_register', $plugin_admin, 'after_register_siswa' );
 
 	}
 

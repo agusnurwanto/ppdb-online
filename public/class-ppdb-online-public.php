@@ -144,7 +144,7 @@ class Ppdb_Online_Public {
 		if(!empty($option_ppdb['bukti_pendaftaran'])){
 			$url_bukti_pendaftaran = '
 			<div style="text-align: center; padding: 10px;">
-				<a href="'.esc_url( get_page_link( $option_ppdb['bukti_pendaftaran'] ) ).'" target="_blank">
+				<a href="'.esc_url( get_page_link( $option_ppdb['bukti_pendaftaran'] ) ).'?user_id='.um_user( 'ID' ).'" target="_blank">
 					<button class="button button-primary">Cetak Bukti Pendaftaran</button>
 				</a>
 			</div>

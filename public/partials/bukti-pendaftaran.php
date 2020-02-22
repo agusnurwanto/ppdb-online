@@ -1,8 +1,10 @@
 <?php
-    $current_user = wp_get_current_user();
-    $user_meta = get_user_meta ( $current_user->ID);
-    $udata = get_userdata( $current_user->ID );
+    $user_id = sanitize_text_field($_GET['user_id']);
+    $user_meta = get_user_meta ( $user_id );
+    // print_r($user_meta); die();
+    $udata = get_userdata( $user_id );
     $option_ppdb = get_option('ppdb_options');
+    // print_r($option_ppdb); die();
 
     $registered = $udata->user_registered;
     $no_pendaftaran = '';

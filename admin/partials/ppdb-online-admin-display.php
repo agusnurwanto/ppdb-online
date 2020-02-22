@@ -60,6 +60,7 @@
     if(false == $cek){
 		$option_page = '<option value="0" selected>Select Page</option>'.$option_page;
     }
+    $option_ppdb['no_pendaftaran'] = 'no_pendaftaran';
 ?>
 
 <div class="wrap">
@@ -129,7 +130,7 @@
                         </label>
                     </th>
                     <td>
-                        <input type="text" class="ppdb-forms-field ppdb-small-field" name="ppdb_options[no_pendaftaran]" value="<?php echo $option_ppdb['no_pendaftaran']; ?>">
+                        <input type="text" class="ppdb-forms-field ppdb-small-field" readonly="true" name="ppdb_options[no_pendaftaran]" value="<?php echo $option_ppdb['no_pendaftaran']; ?>">
                     </td>
                 </tr>
                 <tr class="ppdb-forms-line" data-field_type="select" data-prefix="ppdb_options">
