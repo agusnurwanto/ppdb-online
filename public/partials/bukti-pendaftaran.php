@@ -164,7 +164,7 @@
         		<tr>
         			<td>NAMA LENGKAP</td>
         			<td>:</td>
-        			<td><?php echo $current_user->user_firstname; ?></td>
+        			<td><?php echo $user_meta['first_name'][0];; ?></td>
         		</tr>
         		<tr>
         			<td>TEMPAT TANGGAL LAHIR</td>
