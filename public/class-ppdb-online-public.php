@@ -102,16 +102,24 @@ class Ppdb_Online_Public {
 
 	public function daftar_siswa_shortcode() { 
 		$users = get_users( array( 'fields' => array( 'ID' ) ) );
+    	$option_ppdb = get_option('ppdb_options');
 		$body = '';
 		foreach($users as $user_id){
 	        $metas = get_user_meta ( $user_id->ID);
 			// print_r($metas); die();
+			$no_pendaftaran = '';
+		    if(!empty($option_ppdb['no_pendaftaran']) && !empty($metas[$option_ppdb['no_pendaftaran']])){
+		        $no_pendaftaran = $metas[$option_ppdb['no_pendaftaran']][0];
+		    }
+		    $asal_sekolah = '';
+		    if(!empty($option_ppdb['asal_sekolah']) && !empty($metas[$option_ppdb['asal_sekolah']])){
+		        $asal_sekolah = $metas[$option_ppdb['asal_sekolah']][0];
+		    }
 	        $body.='
 	        	<tr>
-	        		<td>'.$metas['nickname'][0].'</td>
-	        		<td>'.$metas['alamat_siswa'][0].'</td>
-	        		<td>'.$metas['mobile_number'][0].'</td>
-	        		<td>'.$metas['asal-sekolah'][0].'</td>
+	        		<td>'.$no_pendaftaran.'</td>
+	        		<td style="text-align: left;">'.$metas['nickname'][0].'</td>
+	        		<td style="text-align: left;">'.$asal_sekolah.'</td>
 	        	</tr>
 	        ';
 	    }
@@ -119,10 +127,9 @@ class Ppdb_Online_Public {
 		<table>
 			<thead>
 				<tr>
+					<th style="width: 150px;">No Pendaftaran</th>
 					<th>Nama</th>
-					<th>Alamat</th>
-					<th>No. Tlp.</th>
-					<th>Asal Sekolah</th>
+					<th style="width: 60%;">Asal Sekolah</th>
 				</tr>
 			</thead>
 			<tbody>
