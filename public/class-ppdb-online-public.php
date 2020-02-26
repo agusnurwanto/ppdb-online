@@ -101,7 +101,11 @@ class Ppdb_Online_Public {
 	}
 
 	public function daftar_siswa_shortcode() { 
-		$users = get_users( array( 'fields' => array( 'ID' ) ) );
+		$default_role = get_option('default_role');
+		$users = get_users( array( 
+			'fields' => array( 'ID' ),
+			'role'	=> $default_role 
+		) );
     	$option_ppdb = get_option('ppdb_options');
 		$body = '';
 		foreach($users as $user_id){
