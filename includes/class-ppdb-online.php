@@ -179,6 +179,8 @@ class Ppdb_Online {
 		add_shortcode( 'bukti-pendaftaran', array($plugin_public, 'bukti_pendaftaran' ));
 
 		$this->loader->add_action( 'um_profile_menu',  $plugin_public, 'menu_bukti_pendaftaran' );
+		$this->loader->add_action( 'wp_ajax_data_pendaftar',  $plugin_public, 'daftar_siswa_shortcode' );
+		$this->loader->add_action( 'wp_ajax_nopriv_data_pendaftar',  $plugin_public, 'daftar_siswa_shortcode' );
 
 	}
 

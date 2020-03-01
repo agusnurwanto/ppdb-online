@@ -104,7 +104,10 @@ class Ppdb_Online_Public {
 		$default_role = get_option('default_role');
 		$users = get_users( array( 
 			'fields' => array( 'ID' ),
-			'role'	=> $default_role 
+			'role'	=> $default_role,
+			'meta_key'	=>  'no_pendaftaran',
+			'orderby'	=>  'meta_value',
+			'order'	=>  'ASC'
 		) );
     	$option_ppdb = get_option('ppdb_options');
 		$body = '';
@@ -127,7 +130,11 @@ class Ppdb_Online_Public {
 	        	</tr>
 	        ';
 	    }
-		$return = '
+	    $return = '';
+	    if(empty($_GET) || empty($_GET['download'])){
+	    	$return .= '<a target="_blank" href="'.admin_url('admin-ajax.php').'?action=data_pendaftar&download=1"><button class="button button-primary" style="margin-bottom:10px;">Excel</button></a>';	
+	    }
+		$return .= '
 		<table>
 			<thead>
 				<tr>
@@ -139,8 +146,16 @@ class Ppdb_Online_Public {
 			<tbody>
 				'.$body.'
 			</tbody>
-		</table
-		'; 
+		</table>
+		';
+		if(!empty($_GET) && !empty($_GET['download'])){
+			$filename = "data_pendaftar_".date("Y-m-d_H-i",time());
+		    header("Content-type: application/octet-stream");
+			header( "Content-disposition: filename=".$filename.".xls");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		    die($return);
+		}
 		return $return;
 	} 
 
