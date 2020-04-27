@@ -22,6 +22,8 @@
 </ol>
 <h3>Catatan</h3>
 <ul>
+	<li>Proses penambahan fitur download all data user</li>
+	<li>Proses penambahan fitur tambah id gelombang pendaftaran (merubah id nomor urut)</li>
 	<li>Plugin ini masih dalam pengembangan</li>
 	<li>Source code berasal dari repo <a href="https://github.com/agusnurwanto/ppdb-online" target="_blank">https://github.com/agusnurwanto/ppdb-online</a> atau bisa hubungi <a href="https://api.whatsapp.com/send?phone=6289629796473&text=Aplikasi%20PPDB-Online">Agus Nurwanto (0896-2979-6473)</a></li>
 </ul>

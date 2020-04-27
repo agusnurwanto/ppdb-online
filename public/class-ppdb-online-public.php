@@ -110,6 +110,7 @@ class Ppdb_Online_Public {
 			'order'	=>  'ASC'
 		) );
     	$option_ppdb = get_option('ppdb_options');
+    	$current_user = wp_get_current_user();
 		$body = '';
 		foreach($users as $user_id){
 	        $metas = get_user_meta ( $user_id->ID);
@@ -118,15 +119,109 @@ class Ppdb_Online_Public {
 		    if(!empty($option_ppdb['no_pendaftaran']) && !empty($metas[$option_ppdb['no_pendaftaran']])){
 		        $no_pendaftaran = $metas[$option_ppdb['no_pendaftaran']][0];
 		    }
+		    $tempat_lahir = '';
+		    if(!empty($option_ppdb['tempat_lahir']) && !empty($metas[$option_ppdb['tempat_lahir']])){
+		        $tempat_lahir = $metas[$option_ppdb['tempat_lahir']][0];
+		    }
+		    $tanggal_lahir = '';
+		    if(!empty($option_ppdb['tanggal_lahir']) && !empty($metas[$option_ppdb['tanggal_lahir']])){
+		        $tanggal_lahir = $metas[$option_ppdb['tanggal_lahir']][0];
+		    }
+		    $jenis_kelamin = '';
+		    if(!empty($option_ppdb['jenis_kelamin']) && !empty($metas[$option_ppdb['jenis_kelamin']])){
+		        $jenis_kelamin = unserialize($metas[$option_ppdb['jenis_kelamin']][0]);
+		        $jenis_kelamin = $jenis_kelamin[0];
+		    }
 		    $asal_sekolah = '';
 		    if(!empty($option_ppdb['asal_sekolah']) && !empty($metas[$option_ppdb['asal_sekolah']])){
 		        $asal_sekolah = $metas[$option_ppdb['asal_sekolah']][0];
 		    }
+		    $alamat_sekolah = '';
+		    if(!empty($metas['alamat-asal-sekolah'])){
+		        $alamat_sekolah = $metas['alamat-asal-sekolah'][0];
+		    }
+		    $nisn = '';
+		    if(!empty($option_ppdb['nisn']) && !empty($metas[$option_ppdb['nisn']])){
+		        $nisn = $metas[$option_ppdb['nisn']][0];
+		    }
+		    $alamat = '';
+		    if(!empty($option_ppdb['alamat']) && !empty($metas[$option_ppdb['alamat']])){
+		        $alamat = $metas[$option_ppdb['alamat']][0];
+		    }
+		    $no_tlp = '';
+		    if(!empty($option_ppdb['no_tlp']) && !empty($metas[$option_ppdb['no_tlp']])){
+		        $no_tlp = $metas[$option_ppdb['no_tlp']][0];
+		    }
+		    $agama = '';
+		    if(!empty($metas['agama'])){
+		        $agama = $metas['agama'][0];
+		    }
+		    $nama_ayah = '';
+		    if(!empty($metas['nama_ayah'])){
+		        $nama_ayah = $metas['nama_ayah'][0];
+		    }
+		    $pekerjaan_ayah = '';
+		    if(!empty($metas['pekerjaan_ayah'])){
+		        $pekerjaan_ayah = $metas['pekerjaan_ayah'][0];
+		    }
+		    $penghasilan_ayah = '';
+		    if(!empty($metas['penghasilan_ayah'])){
+		        $penghasilan_ayah = unserialize($metas['penghasilan_ayah'][0]);
+		        $penghasilan_ayah = $penghasilan_ayah[0];
+		    }
+		    $nama_ibu = '';
+		    if(!empty($metas['nama_ibu'])){
+		        $nama_ibu = $metas['nama_ibu'][0];
+		    }
+		    $pekerjaan_ibu = '';
+		    if(!empty($metas['pekerjaan_ibu'])){
+		        $pekerjaan_ibu = $metas['pekerjaan_ibu'][0];
+		    }
+		    $penghasilan_ibu = '';
+		    if(!empty($metas['penghasilan_ibu'])){
+		        $penghasilan_ibu = unserialize($metas['penghasilan_ibu'][0]);
+		        $penghasilan_ibu = $penghasilan_ibu[0];
+		    }
+		    $nama_wali = '';
+		    if(!empty($metas['nama_wali'])){
+		        $nama_wali = $metas['nama_wali'][0];
+		    }
+		    $pekerjaan_wali = '';
+		    if(!empty($metas['pekerjaan_wali'])){
+		        $pekerjaan_wali = $metas['pekerjaan_wali'][0];
+		    }
+		    $penghasilan_wali = '';
+		    if(!empty($metas['penghasilan_wali'])){
+		        $penghasilan_wali = unserialize($metas['penghasilan_wali'][0]);
+		        $penghasilan_wali = $penghasilan_wali[0];
+		    }
+			$data_admin = '';
+			if (user_can( $current_user, 'administrator' )) {
+				$data_admin = '
+					<td style="text-align: left;">'.$alamat_sekolah.'</td>
+					<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
+					<td style="text-align: center;">'.$jenis_kelamin.'</td>
+					<td style="text-align: center;">'.$nisn.'</td>
+					<td style="text-align: left;">'.$alamat.'</td>
+					<td style="text-align: center;">'.$no_tlp.'</td>
+					<td style="text-align: center;">'.$agama.'</td>
+					<td style="text-align: left;">'.$nama_ayah.'</td>
+					<td style="text-align: left;">'.$pekerjaan_ayah.'</td>
+					<td style="text-align: left;">'.$penghasilan_ayah.'</td>
+					<td style="text-align: left;">'.$nama_ibu.'</td>
+					<td style="text-align: left;">'.$pekerjaan_ibu.'</td>
+					<td style="text-align: left;">'.$penghasilan_ibu.'</td>
+					<td style="text-align: left;">'.$nama_wali.'</td>
+					<td style="text-align: left;">'.$pekerjaan_wali.'</td>
+					<td style="text-align: left;">'.$penghasilan_wali.'</td>
+				';
+			}
 	        $body.='
 	        	<tr>
 	        		<td>'.$no_pendaftaran.'</td>
-	        		<td style="text-align: left;">'.$metas['nickname'][0].'</td>
+	        		<td style="text-align: left;">'.$metas['first_name'][0].'</td>
 	        		<td style="text-align: left;">'.$asal_sekolah.'</td>
+	        		'.$data_admin.'
 	        	</tr>
 	        ';
 	    }
@@ -134,6 +229,27 @@ class Ppdb_Online_Public {
 	    if(empty($_GET) || empty($_GET['download'])){
 	    	$return .= '<a target="_blank" href="'.admin_url('admin-ajax.php').'?action=data_pendaftar&download=1"><button class="button button-primary" style="margin-bottom:10px;">Excel</button></a>';	
 	    }
+		$th_admin = '';
+		if (user_can( $current_user, 'administrator' )) {
+			$th_admin = '
+				<th>Alamat Sekolah</th>
+				<th>Tempat Tanggal Lahir</th>
+				<th>Jenis Kelamin</th>
+				<th>NISN</th>
+				<th>Alamat Rumah</th>
+				<th>No. Tlp.</th>
+				<th>Agama</th>
+				<th>Ayah Kandung</th>
+				<th>Pekerjaan Ayah</th>
+				<th>Penghasilan Ayah</th>
+				<th>Ibu Kandung</th>
+				<th>Pekerjaan Ibu</th>
+				<th>Penghasilan Ibu</th>
+				<th>Wali</th>
+				<th>Pekerjaan Wali</th>
+				<th>Penghasilan Wali</th>
+			';
+		}
 		$return .= '
 		<table>
 			<thead>
@@ -141,6 +257,7 @@ class Ppdb_Online_Public {
 					<th style="width: 150px;">No Pendaftaran</th>
 					<th>Nama</th>
 					<th style="width: 60%;">Asal Sekolah</th>
+					'.$th_admin.'
 				</tr>
 			</thead>
 			<tbody>
