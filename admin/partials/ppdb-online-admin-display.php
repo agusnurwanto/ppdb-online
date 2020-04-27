@@ -5,13 +5,50 @@
 		}
 	}
 
-	$option_ppdb = get_option('ppdb_options');
-	if(empty($option_ppdb)){
-		$option_ppdb = array(
-			'bukti_pendaftaran' => 0
-		);
-		update_option('ppdb_options', $option_ppdb);
-	}
+    $notif = array();
+    $option_ppdb = get_option('ppdb_options');
+    if(empty($option_ppdb)){
+        $option_ppdb = array(
+            'bukti_pendaftaran' => 0
+        );
+        update_option('ppdb_options', $option_ppdb);
+    }
+    if(empty($option_ppdb['id_ppdb'])){
+        $option_ppdb['id_ppdb'] = '';
+        update_option('ppdb_options', $option_ppdb);
+    }else{
+        $roles = get_editable_roles();
+        // print_r($roles); die();
+
+        $cek_role = false;
+        foreach ($roles as $role => $v) {
+            $key = explode('_', $role);
+            if (end($key) == $option_ppdb['id_ppdb']) {
+                $cek_role = $role;
+            }
+        }
+        // print_r($cek_role); die();
+        if(false == $cek_role){
+            $result = add_role( 
+                'calon_siswa_baru_'.$option_ppdb['id_ppdb'], 
+                'Calon Siswa Baru '.$option_ppdb['id_ppdb'], 
+                array( 
+                    'read' => true,
+                ) 
+            );
+            if ( null !== $result ) {
+                $notif[] = "Success: {$result->name} user role created.";
+            }else {
+                $notif[] = 'Failure: user role already exists.';
+            }
+        }
+
+        $default_role = get_option('default_role');
+        if($default_role != $cek_role){
+            $notif[] = '<span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
+        }
+    }
+
 	if(empty($option_ppdb['no_pendaftaran'])){
 		$option_ppdb['no_pendaftaran'] = '';
 		update_option('ppdb_options', $option_ppdb);
@@ -91,6 +128,23 @@
         <input class="ppdb-forms-field " data-field_id="pages_settings" id="ppdb_options_pages_settings" name="ppdb_options[pages_settings]" type="hidden" value="1">
         <table class="form-table ppdb-form-table ppdb_options-- ppdb-third-colppdbn">
             <tbody>
+            <?php if(!empty($notif)): ?>
+                <tr class="ppdb-forms-line">
+                    <th colspan="2">
+                        <label><?php echo implode('<br>', $notif); ?></label>
+                    </th>
+                </tr>
+            <?php endif; ?>
+                <tr class="ppdb-forms-line">
+                    <th>
+                        <label for="ppdb_options_core_user">
+                            ID nomor urut pendaftaran
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text" class="ppdb-forms-field ppdb-small-field" name="ppdb_options[id_ppdb]" value="<?php echo $option_ppdb['id_ppdb']; ?>">
+                    </td>
+                </tr>
                 <tr class="ppdb-forms-line">
                     <th>
                         <label for="ppdb_options_core_user">

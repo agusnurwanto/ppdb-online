@@ -134,13 +134,18 @@ class Ppdb_Online_Admin {
 
 	function after_register_siswa($user_id){
 		global $wpdb;
-		$tahun = date('Y');
+    	$id_ppdb = date('Y');
+    	$option_ppdb = get_option('ppdb_options');
+    	if(!empty($option_ppdb['id_ppdb'])){
+    		$id_ppdb = $option_ppdb['id_ppdb'];
+    	}
 	    $query = $wpdb->prepare( 
-	        "SELECT max( cast( meta_value as UNSIGNED ) ) FROM {$wpdb->usermeta} WHERE meta_key='no_pendaftaran' and meta_value like '".$tahun."%'"
+	        "SELECT max( cast( meta_value as UNSIGNED ) ) FROM {$wpdb->usermeta} WHERE meta_key='no_pendaftaran' and meta_value like '".$id_ppdb."%'"
 	    );
     	$max_no = $wpdb->get_var( $query );
     	if(empty($max_no)){
-    		$max_no = ($tahun.date('md'))*10000;
+    		// $max_no = ($id_ppdb.date('md'))*10000;
+    		$max_no = ($id_ppdb)*10000;
     	}
     	update_usermeta($user_id, 'no_pendaftaran', $max_no+1);
     	return $user_id;
