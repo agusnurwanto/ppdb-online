@@ -13,6 +13,7 @@
         );
         update_option('ppdb_options', $option_ppdb);
     }
+    $cek_role = false;
     if(empty($option_ppdb['id_ppdb'])){
         $option_ppdb['id_ppdb'] = '';
         update_option('ppdb_options', $option_ppdb);
@@ -20,7 +21,6 @@
         $roles = get_editable_roles();
         // print_r($roles); die();
 
-        $cek_role = false;
         foreach ($roles as $role => $v) {
             $key = explode('_', $role);
             if (end($key) == $option_ppdb['id_ppdb']) {
@@ -49,6 +49,14 @@
         }
     }
 
+    if(empty($option_ppdb['no_pendaftaran_otomatis'])){
+        $option_ppdb['no_pendaftaran_otomatis'] = false;
+        update_option('ppdb_options', $option_ppdb);
+    }
+    if(empty($option_ppdb['no_awal_pendaftar'])){
+        $option_ppdb['no_awal_pendaftar'] = 1;
+        update_option('ppdb_options', $option_ppdb);
+    }
 	if(empty($option_ppdb['no_pendaftaran'])){
 		$option_ppdb['no_pendaftaran'] = '';
 		update_option('ppdb_options', $option_ppdb);
@@ -108,19 +116,19 @@
         <a class="nav-tab nav-tab-active" href="#">
             General
         </a>
-        <a class="nav-tab " href="#">
+       <!--  <a class="nav-tab " href="#">
             Access
-        </a>
+        </a> -->
     </h2>
     <div>
         <ul class="subsubsub">
             <a class="current" href="#">
-                Pages
+                Setting PPDB
             </a>
-            |
+            <!-- |
             <a class="" href="#">
                 Users
-            </a>
+            </a> -->
         </ul>
     </div>
     <form action="" method="post" name="ppdb-settings-form">
@@ -143,6 +151,33 @@
                     </th>
                     <td>
                         <input type="text" class="ppdb-forms-field ppdb-small-field" name="ppdb_options[id_ppdb]" value="<?php echo $option_ppdb['id_ppdb']; ?>">
+                        <?php if!empty($cek_role){ echo "user_role = $cek_role"; }; ?>
+                    </td>
+                </tr>
+                <tr class="ppdb-forms-line">
+                    <th>
+                        <label for="ppdb_options_core_user">
+                            Nomor pendaftar otomatis (tahun,bulan,tanggal)
+                        </label>
+                    </th>
+                    <td>
+                    <?php
+                        $selected = "";
+                        if(!empty($option_ppdb['no_pendaftaran_otomatis'])){
+                            $selected = "selected";
+                        }
+                    ?>
+                        <input type="checkbox" name="ppdb_options[no_pendaftaran_otomatis]" <?php echo $selected; ?>>
+                    </td>
+                </tr>
+                <tr class="ppdb-forms-line">
+                    <th>
+                        <label for="ppdb_options_core_user">
+                            Nomor awal pendaftar
+                        </label>
+                    </th>
+                    <td>
+                        <input type="number" class="ppdb-forms-field ppdb-small-field" name="ppdb_options[no_awal_pendaftar]" value="<?php echo $option_ppdb['no_awal_pendaftar']; ?>" placeholder="Nilai default dimulai dari 1">
                     </td>
                 </tr>
                 <tr class="ppdb-forms-line">
