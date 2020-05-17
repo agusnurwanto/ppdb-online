@@ -136,17 +136,30 @@ class Ppdb_Online_Admin {
 		global $wpdb;
     	$id_ppdb = date('Y');
     	$option_ppdb = get_option('ppdb_options');
-    	if(!empty($option_ppdb['id_ppdb'])){
+    	if(!empty($option_ppdb['id_ppdb']) && empty($option_ppdb['no_pendaftaran_otomatis'])){
     		$id_ppdb = $option_ppdb['id_ppdb'];
     	}
+		
+    	$zero = 0;
+		if(!empty($option_ppdb['no_pendaftaran_otomatis'])){
+			$zero = (date('Ymd'))*10000;
+	    }else{
+			$zero = ($id_ppdb)*10000;
+		}
+
 	    $query = $wpdb->prepare( 
 	        "SELECT max( cast( meta_value as UNSIGNED ) ) FROM {$wpdb->usermeta} WHERE meta_key='no_pendaftaran' and meta_value like '".$id_ppdb."%'"
 	    );
     	$max_no = $wpdb->get_var( $query );
+
     	if(empty($max_no)){
-    		// $max_no = ($id_ppdb.date('md'))*10000;
-    		$max_no = ($id_ppdb)*10000;
+    		$max_no = $zero;
     	}
+
+    	if(($max_no-$zero) < $option_ppdb['no_awal_pendaftar']){
+    		$max_no = ($zero+$option_ppdb['no_awal_pendaftar'])-1;
+    	}
+    	
     	update_usermeta($user_id, 'no_pendaftaran', $max_no+1);
     	return $user_id;
 	}

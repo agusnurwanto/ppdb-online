@@ -151,7 +151,7 @@
                     </th>
                     <td>
                         <input type="text" class="ppdb-forms-field ppdb-small-field" name="ppdb_options[id_ppdb]" value="<?php echo $option_ppdb['id_ppdb']; ?>">
-                        <?php if!empty($cek_role){ echo "user_role = $cek_role"; }; ?>
+                        <?php if(!empty($cek_role)){ echo "user_role = $cek_role"; }; ?>
                     </td>
                 </tr>
                 <tr class="ppdb-forms-line">
@@ -164,7 +164,7 @@
                     <?php
                         $selected = "";
                         if(!empty($option_ppdb['no_pendaftaran_otomatis'])){
-                            $selected = "selected";
+                            $selected = "checked";
                         }
                     ?>
                         <input type="checkbox" name="ppdb_options[no_pendaftaran_otomatis]" <?php echo $selected; ?>>
