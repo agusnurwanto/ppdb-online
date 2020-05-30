@@ -13,6 +13,7 @@
     * Jika diakses oleh tanpa login atau user pendaftar, hanya akan ditampilkan data secukupnya. Default (No Pendaftar, Nama, Asal Sekolah, NISN)
     * Untuk edit tampilan tabel di halaman data pendaftar bisa langsung edit ***shortcode function daftar_siswa_shortcode*** di file "public > class-ppdb-online-public.php"
 - Download data pendaftar bisa dilakukan dengan klik tombol EXCEL di halaman data pendaftar https://ppdb.smkangkasa-iswahjudi.sch.id/data-pendaftar/
+- Saran jika form pendaftaran perlu menyertakan berkas file, sebaiknya diupload di google drive atau penyimpanan yang lain. Nantinya bisa dibuat share link dan linknya dapat diinputkan di form pendaftaran. Hal ini dilakukan untuk mempermudah pengembangan script dan juga agar tidak membebani server karena harus menyimpan file-file yang besar.
 - Untuk info lainnya bisa tanyakan langsung via **WA ke 0896-2979-6473 (Agus Nurwanto)**
 
 ***semoga bisa bermanfaat***
