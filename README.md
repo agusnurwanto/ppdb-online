@@ -18,15 +18,19 @@
 - Untuk info lainnya bisa tanyakan langsung via **WA ke 0896-2979-6473 (Agus Nurwanto)**
 
 **Halaman Utama** https://ppdb.smkangkasa-iswahjudi.sch.id/
+
 <img src="https://github.com/agusnurwanto/ppdb-online/blob/master/home_ppdb.png?raw=true" alt="Halaman Utama" width="300">
 
 **Halaman Registrasi** https://ppdb.smkangkasa-iswahjudi.sch.id/register/
+
 <img src="https://github.com/agusnurwanto/ppdb-online/blob/master/Register.png?raw=true" alt="Halaman Registrasi" width="300">
 
 **Halaman Bukti Pendaftaran** https://ppdb.smkangkasa-iswahjudi.sch.id/bukti-pendaftaran/?user_id=97
+
 <img src="https://github.com/agusnurwanto/ppdb-online/blob/master/Bukti_Pendaftaran.png?raw=true" alt="Halaman Bukti Pendaftaran" width="300">
 
 **Halaman Data Pendaftar** https://ppdb.smkangkasa-iswahjudi.sch.id/data-pendaftar/
+
 <img src="https://github.com/agusnurwanto/ppdb-online/blob/master/Data_Pendaftar.png?raw=true" alt="Halaman Data Pendaftar" width="300">
 
 
