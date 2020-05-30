@@ -17,4 +17,17 @@
 - Edit tampilan header bukti pendaftaran contoh https://ppdb.smkangkasa-iswahjudi.sch.id/bukti-pendaftaran/?user_id=97 bisa dilakukan di file ini "public > partials > bukti-pendaftaran.php"
 - Untuk info lainnya bisa tanyakan langsung via **WA ke 0896-2979-6473 (Agus Nurwanto)**
 
+**Halaman Utama** https://ppdb.smkangkasa-iswahjudi.sch.id/
+![Halaman Utama](https://github.com/agusnurwanto/ppdb-online/blob/master/home_ppdb.png?raw=true "Halaman Utama Pendaftaran Online")
+
+**Halaman Registrasi** https://ppdb.smkangkasa-iswahjudi.sch.id/register/
+![Halaman Registrasi](https://github.com/agusnurwanto/ppdb-online/blob/master/Register.png?raw=true "Halaman Registrasi Pendaftaran Online")
+
+**Halaman Bukti Pendaftaran** https://ppdb.smkangkasa-iswahjudi.sch.id/bukti-pendaftaran/?user_id=97
+![Halaman Bukti Pendaftaran](https://github.com/agusnurwanto/ppdb-online/blob/master/Bukti_Pendaftaran.png?raw=true "Halaman Bukti Pendaftaran Pendaftaran Online")
+
+**Halaman Data Pendaftar** https://ppdb.smkangkasa-iswahjudi.sch.id/data-pendaftar/
+![Halaman Data Pendaftar](https://github.com/agusnurwanto/ppdb-online/blob/master/Data_Pendaftar.png?raw=true "Halaman Data Pendaftar Pendaftaran Online")
+
+
 ***semoga bisa bermanfaat***
