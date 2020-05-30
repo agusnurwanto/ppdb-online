@@ -34,4 +34,4 @@
 <img src="https://github.com/agusnurwanto/ppdb-online/blob/master/Data_Pendaftar.png?raw=true" alt="Halaman Data Pendaftar" width="300">
 
 
-***semoga bisa bermanfaat***
+## Semoga bisa bermanfaat dan memberi keberkahan. AMIN
