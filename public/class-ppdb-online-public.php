@@ -201,7 +201,6 @@ class Ppdb_Online_Public {
 					<td style="text-align: left;">'.$alamat_sekolah.'</td>
 					<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 					<td style="text-align: center;">'.$jenis_kelamin.'</td>
-					<td style="text-align: center;">'.$nisn.'</td>
 					<td style="text-align: left;">'.$alamat.'</td>
 					<td style="text-align: center;">'.$no_tlp.'</td>
 					<td style="text-align: center;">'.$agama.'</td>
@@ -221,6 +220,7 @@ class Ppdb_Online_Public {
 	        		<td>'.$no_pendaftaran.'</td>
 	        		<td style="text-align: left;">'.$metas['first_name'][0].'</td>
 	        		<td style="text-align: left;">'.$asal_sekolah.'</td>
+				<td style="text-align: center;">'.$nisn.'</td>
 	        		'.$data_admin.'
 	        	</tr>
 	        ';
@@ -235,7 +235,6 @@ class Ppdb_Online_Public {
 				<th>Alamat Sekolah</th>
 				<th>Tempat Tanggal Lahir</th>
 				<th>Jenis Kelamin</th>
-				<th>NISN</th>
 				<th>Alamat Rumah</th>
 				<th>No. Tlp.</th>
 				<th>Agama</th>
@@ -257,6 +256,7 @@ class Ppdb_Online_Public {
 					<th style="width: 150px;">No Pendaftaran</th>
 					<th>Nama</th>
 					<th style="width: 60%;">Asal Sekolah</th>
+					<th>NISN</th>
 					'.$th_admin.'
 				</tr>
 			</thead>
