@@ -106,7 +106,7 @@ class Ppdb_Online_Public {
 			'fields' => array( 'ID' ),
 			'role'	=> $default_role,
 			'meta_key'	=>  'no_pendaftaran',
-			'orderby'	=>  'meta_value',
+			'orderby'	=>  'meta_value_num',
 			'order'	=>  'ASC'
 		) );
     	$option_ppdb = get_option('ppdb_options');
