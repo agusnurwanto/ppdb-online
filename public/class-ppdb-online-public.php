@@ -195,6 +195,11 @@ class Ppdb_Online_Public {
 		        $penghasilan_wali = unserialize($metas['penghasilan_wali'][0]);
 		        $penghasilan_wali = $penghasilan_wali[0];
 		    }
+		    $sertifikat = '';
+		    if(!empty($metas['sertifikat'])){
+		        $sertifikat_url = $this->get_um_file($user_id->ID, $metas['sertifikat'][0]);
+		        $sertifikat = '<a href="'.$sertifikat_url.'" target="_blank"><img src="'.$sertifikat_url.'" style="min-width: 300px;"></a>';
+		    }
 			$data_admin = '';
 			if (user_can( $current_user, 'administrator' )) {
 				$data_admin = '
@@ -213,6 +218,7 @@ class Ppdb_Online_Public {
 					<td style="text-align: left;">'.$nama_wali.'</td>
 					<td style="text-align: left;">'.$pekerjaan_wali.'</td>
 					<td style="text-align: left;">'.$penghasilan_wali.'</td>
+					<td style="text-align: left;">'.$sertifikat.'</td>
 				';
 			}
 	        $body.='
@@ -220,7 +226,7 @@ class Ppdb_Online_Public {
 	        		<td>'.$no_pendaftaran.'</td>
 	        		<td style="text-align: left;">'.$metas['first_name'][0].'</td>
 	        		<td style="text-align: left;">'.$asal_sekolah.'</td>
-				<td style="text-align: center;">'.$nisn.'</td>
+					<td style="text-align: center;">'.$nisn.'</td>
 	        		'.$data_admin.'
 	        	</tr>
 	        ';
@@ -247,6 +253,7 @@ class Ppdb_Online_Public {
 				<th>Wali</th>
 				<th>Pekerjaan Wali</th>
 				<th>Penghasilan Wali</th>
+				<th>Sertifikat</th>
 			';
 		}
 		$return .= '
@@ -274,7 +281,13 @@ class Ppdb_Online_Public {
 		    die($return);
 		}
 		return $return;
-	} 
+	}
+
+	function get_um_file( $user_id, $image_filename ) {
+	  	$upload_dir = wp_upload_dir();
+		$image_url = esc_url( $upload_dir['baseurl'] . '/ultimatemember/' . $user_id . '/' . $image_filename );
+		return $image_url;
+	}
 
 	public function bukti_pendaftaran() {
 		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
