@@ -40,6 +40,8 @@ class Ppdb_Online_Public {
 	 */
 	private $version;
 
+	private $functions;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -47,10 +49,11 @@ class Ppdb_Online_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version, $functions) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->functions = $functions;
 
 	}
 
@@ -100,6 +103,11 @@ class Ppdb_Online_Public {
 
 	}
 
+	public function bukti_pendaftaran() {
+		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
+		require_once $ret;
+	}
+
 	public function daftar_siswa_shortcode() { 
 		$default_role = get_option('default_role');
 		$users = get_users( array( 
@@ -109,7 +117,16 @@ class Ppdb_Online_Public {
 			'orderby'	=>  'meta_value_num',
 			'order'	=>  'ASC'
 		) );
-    	$option_ppdb = get_option('ppdb_options');
+    	$option_ppdb = array(
+		    'no_pendaftaran' => get_option('_crb_no_pendaftaran_meta_key'),
+		    'tempat_lahir' => get_option('_crb_tempat_lahir_meta_key'),
+		    'tanggal_lahir' => get_option('_crb_tanggal_lahir_meta_key'),
+		    'jenis_kelamin' => get_option('_crb_jenis_kelamin_meta_key'),
+		    'asal_sekolah' => get_option('_crb_asal_sekolah_meta_key'),
+		    'nisn' => get_option('_crb_nisn_meta_key'),
+		    'alamat' => get_option('_crb_alamat_meta_key'),
+		    'no_tlp' => get_option('_crb_no_tlp_meta_key')
+		);
     	$current_user = wp_get_current_user();
 		$body = '';
 		foreach($users as $user_id){
@@ -289,23 +306,21 @@ class Ppdb_Online_Public {
 		return $image_url;
 	}
 
-	public function bukti_pendaftaran() {
-		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
-		require_once $ret;
-	}
-
 	function menu_bukti_pendaftaran( $args ) {
-		$option_ppdb = get_option('ppdb_options');
 		$url_bukti_pendaftaran = 'Halaman bukti pendaftaran belum di setting. Harap hubungi administrator!';
-		if(!empty($option_ppdb['bukti_pendaftaran'])){
-			$url_bukti_pendaftaran = '
-			<div style="text-align: center; padding: 10px;">
-				<a href="'.esc_url( get_page_link( $option_ppdb['bukti_pendaftaran'] ) ).'?user_id='.um_user( 'ID' ).'" target="_blank">
-					<button class="button button-primary">Cetak Bukti Pendaftaran</button>
-				</a>
-			</div>
-			';
-		}
+		$bukti_pendaftaran = $this->functions->generatePage(array(
+			'nama_page' => 'Bukti Pendaftaran Siswa Baru',
+			'content' => '[bukti-pendaftaran]',
+			'show_header' => 1,
+			'post_status' => 'private'
+		));
+		$url_bukti_pendaftaran = '
+		<div style="text-align: center; padding: 10px;">
+			<a href="'.$this->functions->add_param_get($bukti_pendaftaran['url'], '&user_id='.get_current_user_id()).'" target="_blank">
+				<button class="button button-primary">Cetak Bukti Pendaftaran</button>
+			</a>
+		</div>
+		';
 		echo $url_bukti_pendaftaran;
 	}
 

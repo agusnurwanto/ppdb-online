@@ -29,6 +29,30 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+define( 'PPDB_APIKEY', '_crb_apikey_ppdb' );
+
+// ============== https://carbonfields.net/ ================
+if(!defined('Carbon_Fields_Plugin\PLUGIN_FILE')){
+    define( 'Carbon_Fields_Plugin\PLUGIN_FILE', __FILE__ );
+
+    define( 'Carbon_Fields_Plugin\RELATIVE_PLUGIN_FILE', basename( dirname( \Carbon_Fields_Plugin\PLUGIN_FILE ) ) . '/' . basename( \Carbon_Fields_Plugin\PLUGIN_FILE ) );
+}
+
+add_action( 'after_setup_theme', 'carbon_fields_boot_plugin' );
+if(!function_exists('carbon_fields_boot_plugin')){
+    function carbon_fields_boot_plugin() {
+        if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+            require( __DIR__ . '/vendor/autoload.php' );
+        }
+        \Carbon_Fields\Carbon_Fields::boot();
+
+        if ( is_admin() ) {
+            \Carbon_Fields_Plugin\Libraries\Plugin_Update_Warning\Plugin_Update_Warning::boot();
+        }
+    }
+}
+// copy folder vendor & core
+// ============== https://carbonfields.net/ ================
 
 /**
  * Currently plugin version.
