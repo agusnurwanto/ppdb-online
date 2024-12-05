@@ -119,21 +119,24 @@ class Ppdb_Online_Admin {
 	    }
 	    if(empty($option_ppdb['id_ppdb'])){
 	        $option_ppdb['id_ppdb'] = '';
-	    }else{
+	    }
+
+	    $id_ppdb = get_option('_crb_id_ppdb');
+	    if(!empty($id_ppdb)){
 	    	$roles = wp_roles()->roles;
 	        // print_r($roles); die();
 
 	        foreach ($roles as $role => $v) {
 	            $key = explode('_', $role);
-	            if (end($key) == $option_ppdb['id_ppdb']) {
+	            if (end($key) == $id_ppdb) {
 	                $cek_role = $role;
 	            }
 	        }
 	        // print_r($cek_role); die();
 	        if(false == $cek_role){
 	            $result = add_role( 
-	                'calon_siswa_baru_'.$option_ppdb['id_ppdb'], 
-	                'Calon Siswa Baru '.$option_ppdb['id_ppdb'], 
+	                'calon_siswa_baru_'.$id_ppdb, 
+	                'Calon Siswa Baru '.$id_ppdb, 
 	                array( 
 	                    'read' => true,
 	                ) 
@@ -147,7 +150,11 @@ class Ppdb_Online_Admin {
 
 	        $default_role = get_option('default_role');
 	        if($default_role != $cek_role){
-	            $notif_role .= '<span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
+	        	update_option('default_role', 'calon_siswa_baru_'.$id_ppdb);
+	        	$default_role = get_option('default_role');
+		        if($default_role != $cek_role){
+		            $notif_role .= '<span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
+		        }
 	        }
 	    }
 
@@ -234,7 +241,7 @@ class Ppdb_Online_Admin {
 	    }
 	    $all_field[] = Field::make('text', 'crb_id_ppdb', 'ID nomor urut pendaftaran')
 			->set_default_value($option_ppdb['id_ppdb'])
-			->set_help_text('ID unik untuk nomor urut pendaftaran siswa baru. Contoh 2024_GEL_1, 2024_GEL_2 dst.');
+			->set_help_text('ID unik untuk nomor urut pendaftaran siswa baru. Contoh 2024/GEL/1, 2024/GEL/2 dst. (Tidak boleh menggunakan karakter underscore <b>_</b>)');
 	    $all_field[] = Field::make('checkbox', 'crb_no_pendaftaran_otomatis', 'Nomor pendaftar otomatis')
 			->set_default_value($option_ppdb['no_pendaftaran_otomatis'])
 			->set_option_value( 'yes' )
