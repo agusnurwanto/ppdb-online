@@ -185,6 +185,20 @@ class Ppdb_Online_Admin {
 		}
 	    $option_ppdb['no_pendaftaran'] = 'no_pendaftaran';
 
+	    $beranda = $this->functions->generatePage(array(
+			'nama_page' => 'Halaman Muka PPDB',
+			'content' => '[beranda-ppdb]',
+			'show_header' => 1,
+			'no_key' => 1,
+			'post_status' => 'public'
+		));
+	    $hubungi_admin = $this->functions->generatePage(array(
+			'nama_page' => 'Hubungi Admin PPDB',
+			'content' => '[customer-service-ppdb]',
+			'show_header' => 1,
+			'no_key' => 1,
+			'post_status' => 'public'
+		));
 	    $bukti_pendaftaran = $this->functions->generatePage(array(
 			'nama_page' => 'Bukti Pendaftaran Siswa Baru',
 			'content' => '[bukti-pendaftaran]',
@@ -204,6 +218,8 @@ class Ppdb_Online_Admin {
 			->set_html('
 				<h3>Halaman Terkait</h3>
 				<ul>
+					<li><a href="'.$beranda['url'].'" target="_blank">'.$beranda['title'].'</a></li>
+					<li><a href="'. $hubungi_admin['url'].'" target="_blank">'. $hubungi_admin['title'].'</a></li>
 					<li><a href="'.$bukti_pendaftaran['url'].'" target="_blank">'.$bukti_pendaftaran['title'].'</a></li>
 					<li><a href="'.$daftar_siswa['url'].'" target="_blank">'.$daftar_siswa['title'].'</a></li>
 				</ul>
@@ -253,10 +269,41 @@ class Ppdb_Online_Admin {
 			->set_default_value($option_ppdb['no_tlp'])
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
 
+		$info_developer = '';
+		if(get_option('_crb_credit_ppdb') == 1){
+		    $all_field[] = Field::make('select', 'crb_credit_ppdb', 'Sembunyikan credit developer')
+				->set_default_value('1')
+			    ->add_options(array(
+			    	'1' => 'Tampil',
+			    	'2' => 'Sembunyikan informasi tentang developer'
+			    ))
+				->set_help_text('Untuk menyembunyikan informasi tentang pengembangan aplikasi ini di menu Dokumentasi.');
+			$info_developer = '<li>Source code berasal dari repo <a href="https://github.com/agusnurwanto/ppdb-online" target="_blank">https://github.com/agusnurwanto/ppdb-online</a> atau bisa hubungi <a href="https://api.whatsapp.com/send?phone=6289629796473&text=Aplikasi%20PPDB-Online">Agus Nurwanto (0896-2979-6473)</a></li>';
+		}
+
 		$basic_options_container = Container::make('theme_options', __('PPDB Settings'))
 			->set_page_menu_position(6)
 			->set_icon('dashicons-media-spreadsheet')
 			->add_fields($all_field);
+
+		Container::make('theme_options', __('Beranda'))
+			->set_page_parent($basic_options_container)
+			->add_fields(array(
+				Field::make( 'image', 'crb_ppdb_logo', 'Logo Beranda' )
+    				->set_value_type( 'url' ),
+				Field::make('text', 'crb_ppdb_no_wa_1', 'Nomor WA Admin 1')
+	    			->set_attribute( 'type', 'number' ),
+				Field::make('text', 'crb_ppdb_nama_wa_1', 'Nama WA Admin 1'),
+				Field::make('text', 'crb_ppdb_pesan_wa_1', 'Generate pesan WA Admin 1')
+					->set_default_value('assalamualaikum warahmatullahi wabarakatuh. Saya mau tanya tentang pendaftaran siswa baru.')
+					->set_help_text('Template pesan yang akan ditampilkan saat user menekan tombol hubungi admin.'),
+				Field::make('text', 'crb_ppdb_no_wa_2', 'Nomor WA Admin 2')
+	    			->set_attribute( 'type', 'number' ),
+				Field::make('text', 'crb_ppdb_nama_wa_2', 'Nama WA Admin 2'),
+				Field::make('text', 'crb_ppdb_pesan_wa_2', 'Generate pesan WA Admin 2')
+					->set_default_value('assalamualaikum warahmatullahi wabarakatuh. Saya mau tanya tentang pendaftaran siswa baru.')
+					->set_help_text('Template pesan yang akan ditampilkan saat user menekan tombol hubungi admin.'),
+		));
 
 		Container::make('theme_options', __('Dokumentasi'))
 			->set_page_parent($basic_options_container)
@@ -294,7 +341,7 @@ class Ppdb_Online_Admin {
 							<li>Proses penambahan fitur download all data user</li>
 							<li>Proses penambahan fitur tambah id gelombang pendaftaran (merubah id nomor urut)</li>
 							<li>Plugin ini masih dalam pengembangan</li>
-							<li>Source code berasal dari repo <a href="https://github.com/agusnurwanto/ppdb-online" target="_blank">https://github.com/agusnurwanto/ppdb-online</a> atau bisa hubungi <a href="https://api.whatsapp.com/send?phone=6289629796473&text=Aplikasi%20PPDB-Online">Agus Nurwanto (0896-2979-6473)</a></li>
+							'.$info_developer.'
 						</ul>
 					')
 			));

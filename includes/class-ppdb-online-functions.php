@@ -540,6 +540,7 @@ class PPDB_Functions
         
         return $newUrl;
     }
+
     function add_param_get($url, $param){
         $data = explode('?', $url);
         if(count($data) > 1){
@@ -548,5 +549,13 @@ class PPDB_Functions
             $url .= '?'.$param;
         }
         return $url;
+    }
+
+    function generateWALink($phoneNumber, $message) {
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+        $encodedMessage = urlencode($message);
+        $whatsappLink = "https://wa.me/$phoneNumber?text=$encodedMessage";
+
+        return $whatsappLink;
     }
 }

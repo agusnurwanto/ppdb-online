@@ -108,6 +108,16 @@ class Ppdb_Online_Public {
 		require_once $ret;
 	}
 
+	public function beranda_ppdb() {
+		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/beranda-ppdb.php';
+		require_once $ret;
+	}
+
+	public function customer_service_ppdb() {
+		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/customer-service-ppdb.php';
+		require_once $ret;
+	}
+
 	public function daftar_siswa_shortcode() { 
 		$default_role = get_option('default_role');
 		$users = get_users( array( 
