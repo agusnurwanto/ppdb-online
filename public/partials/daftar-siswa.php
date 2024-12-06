@@ -3,7 +3,11 @@ if (!defined('WPINC')) {
     die;
 }
 
-$default_role = get_option('default_role');
+if(!empty($_GET) && !empty($_GET['role'])){
+	$default_role = $_GET['role'];
+}else{
+	$default_role = get_option('default_role');
+}
 $users = get_users( array( 
 	'fields' => array( 'ID' ),
 	'role'	=> $default_role,
@@ -153,15 +157,26 @@ if(
 	$role_siswa_baru = '<option value="">Pilih Jenis Data</option>';
     foreach ($roles as $role => $v) {
         if (strpos($role, 'calon_siswa_baru_') !== false) {
-            $role_siswa_baru .= '<option value="'.$role.'">'.$role.'</option>';
+        	$selected = '';
+        	if($role == $default_role){
+        		$selected = 'selected';
+        	}
+            $role_siswa_baru .= '<option '.$selected.' value="'.$role.'">'.$v['name'].'</option>';
         }
     }
 	$return .= '
 		<h1 class="text-center">Daftar Pendaftar</h1>
-		<div class="aksi-ppdb text-center">
-			<label>Pilih Jenis Data</label> <select class="form-control" id="jenis_data_ppdb" style="max-width: 400px; display: inline-block;">'.$role_siswa_baru.'</select>
-			<a target="_blank" href="'.admin_url('admin-ajax.php').'?action=data_pendaftar&download=1" class="btn btn-primary" style="margin-bottom:10px;">Excel</a>
-		</div>';
+		<div class="aksi-ppdb text-center" style="margin-bottom: 20px;">
+			<label>Pilih Jenis Data</label> <select class="form-control" id="jenis_data_ppdb" onchange="filter_role();" style="max-width: 400px; display: inline-block;">'.$role_siswa_baru.'</select>
+			<a target="_blank" href="'.admin_url('admin-ajax.php').'?action=data_pendaftar&download=1" class="btn btn-primary" style="margin: 0px 0px 3px 20px;">Excel</a>
+		</div>
+		<script>
+			function filter_role(){
+				var currentUrl = new URL(window.location.href);
+			    currentUrl.searchParams.set("role", jQuery("#jenis_data_ppdb").val());
+			    window.location = currentUrl.href;
+			}
+		</script>';
 }
 
 $th_admin = '';

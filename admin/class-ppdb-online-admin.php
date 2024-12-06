@@ -126,34 +126,38 @@ class Ppdb_Online_Admin {
 	    	$roles = wp_roles()->roles;
 	        // print_r($roles); die();
 
+	    	$id_ppdb_enc = 'calon_siswa_baru_'.base64_encode($id_ppdb);
+	    	$cek_role = false;
 	        foreach ($roles as $role => $v) {
-	            $key = explode('_', $role);
-	            if (end($key) == $id_ppdb) {
-	                $cek_role = $role;
+	            if ($role == $id_ppdb_enc) {
+	                $cek_role = $v['name'];
 	            }
 	        }
 	        // print_r($cek_role); die();
 	        if(false == $cek_role){
+	        	$cek_role = 'Calon Siswa Baru '.$id_ppdb;
 	            $result = add_role( 
-	                'calon_siswa_baru_'.$id_ppdb, 
-	                'Calon Siswa Baru '.$id_ppdb, 
+	                $id_ppdb_enc, 
+	                $cek_role, 
 	                array( 
 	                    'read' => true,
 	                ) 
 	            );
 	            if ( null !== $result ) {
 	                $notif_role .= "Success: {$result->name} user role created.";
+	                $roles = wp_roles()->roles;
 	            }else {
 	                $notif_role .= 'Failure: user role already exists.';
+	                $cek_role = false;
 	            }
 	        }
 
-	        $default_role = get_option('default_role');
+	        $default_role = $roles[get_option('default_role')]['name'];
 	        if($default_role != $cek_role){
-	        	update_option('default_role', 'calon_siswa_baru_'.$id_ppdb);
-	        	$default_role = get_option('default_role');
+	        	update_option('default_role', $id_ppdb_enc);
+	        	$default_role = $roles[get_option('default_role')]['name'];
 		        if($default_role != $cek_role){
-		            $notif_role .= '<span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
+		            $notif_role .= ' <span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
 		        }
 	        }
 	    }
