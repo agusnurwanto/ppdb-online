@@ -201,7 +201,7 @@ if (user_can( $current_user, 'administrator' )) {
 	';
 }
 $return .= '
-<table>
+<table class="table table-bordered">
 	<thead>
 		<tr>
 			<th style="width: 150px;">No Pendaftaran</th>
