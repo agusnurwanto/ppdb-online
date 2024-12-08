@@ -13,7 +13,7 @@ if (!defined('WPINC')) {
         font-size: 25px;
     }
 </style>
-<div class="container" style="width: 500px;">
+<div class="container" style="max-width: 500px;">
     <div class="row text-center" style="margin-bottom: 20px;">
         <div class="col-md-12">
             <h3 class="text-center btn btn-primary text-white" style="border-radius: 25px; margin: 20px; padding: 25px;">WA Admin PPDB</h3>
