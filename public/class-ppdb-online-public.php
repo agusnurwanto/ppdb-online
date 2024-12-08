@@ -108,21 +108,33 @@ class Ppdb_Online_Public {
 	}
 
 	public function bukti_pendaftaran() {
+		if (!empty($_GET) && !empty($_GET['POST'])) {
+			return '';
+		}
 		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/bukti-pendaftaran.php';
 		require_once $ret;
 	}
 
 	public function beranda_ppdb() {
+		if (!empty($_GET) && !empty($_GET['POST'])) {
+			return '';
+		}
 		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/beranda-ppdb.php';
 		require_once $ret;
 	}
 
 	public function customer_service_ppdb() {
+		if (!empty($_GET) && !empty($_GET['POST'])) {
+			return '';
+		}
 		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/customer-service-ppdb.php';
 		require_once $ret;
 	}
 
-	public function daftar_siswa_shortcode() { 
+	public function daftar_siswa_shortcode() {
+		if (!empty($_GET) && !empty($_GET['POST'])) {
+			return '';
+		}
 		$ret = plugin_dir_path( dirname( __FILE__ ) ) .'public/partials/daftar-siswa.php';
 		require_once $ret;
 	}
