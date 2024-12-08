@@ -208,14 +208,14 @@ class Ppdb_Online_Admin {
 			'content' => '[beranda-ppdb]',
 			'show_header' => 1,
 			'no_key' => 1,
-			'post_status' => 'public'
+			'post_status' => 'publish'
 		));
 	    $hubungi_admin = $this->functions->generatePage(array(
 			'nama_page' => 'Hubungi Admin PPDB',
 			'content' => '[customer-service-ppdb]',
 			'show_header' => 1,
 			'no_key' => 1,
-			'post_status' => 'public'
+			'post_status' => 'publish'
 		));
 	    $bukti_pendaftaran = $this->functions->generatePage(array(
 			'nama_page' => 'Bukti Pendaftaran Siswa Baru',

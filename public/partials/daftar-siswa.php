@@ -201,20 +201,30 @@ if (user_can( $current_user, 'administrator' )) {
 	';
 }
 $return .= '
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th style="width: 150px;">No Pendaftaran</th>
-			<th>Nama</th>
-			<th style="width: 60%;">Asal Sekolah</th>
-			<th>NISN</th>
-			'.$th_admin.'
-		</tr>
-	</thead>
-	<tbody>
-		'.$body.'
-	</tbody>
-</table>
+<style>
+.container-ppdb{	
+    overflow: auto;
+    max-height: 90vh;
+    max-width: 98vw;
+    margin: auto;
+}
+</style>
+<div class="container-ppdb">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th style="width: 150px;">No Pendaftaran</th>
+				<th>Nama</th>
+				<th style="width: 60%;">Asal Sekolah</th>
+				<th>NISN</th>
+				'.$th_admin.'
+			</tr>
+		</thead>
+		<tbody>
+			'.$body.'
+		</tbody>
+	</table>
+</div>
 ';
 if(!empty($_GET) && !empty($_GET['download'])){
 	$filename = "data_pendaftar_".date("Y-m-d_H-i",time());
