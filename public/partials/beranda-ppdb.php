@@ -40,18 +40,18 @@ $register_url = get_permalink( $page_id );
         </div>
     </div>
     <div class="row text-center" style="margin-bottom: 20px;">
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <a href="<?php echo $register_url; ?>" class="btn btn-primary btn-custom">Daftar PPDB</a>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <a href="<?php echo $daftar_siswa['url']; ?>" class="btn btn-primary btn-custom">Data Pendaftar</a>
         </div>
     </div>
     <div class="row text-center" style="margin-bottom: 20px;">
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <a href="<?php echo $login_url; ?>" class="btn btn-primary btn-custom">Login Akun</a>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <a href="<?php echo $hubungi_admin['url']; ?>" class="btn btn-primary btn-custom">WA Admin PPDB</a>
         </div>
     </div>

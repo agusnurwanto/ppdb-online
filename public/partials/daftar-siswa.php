@@ -118,6 +118,7 @@ foreach($users as $user_id){
 	$data_admin = '';
 	if (user_can( $current_user, 'administrator' )) {
 		$data_admin = '
+			<td style="text-align: center;">'.$nisn.'</td>
 			<td style="text-align: left;">'.$alamat_sekolah.'</td>
 			<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
@@ -141,7 +142,6 @@ foreach($users as $user_id){
     		<td>'.$no_pendaftaran.'</td>
     		<td style="text-align: left;">'.$metas['first_name'][0].'</td>
     		<td style="text-align: left;">'.$asal_sekolah.'</td>
-			<td style="text-align: center;">'.$nisn.'</td>
     		'.$data_admin.'
     	</tr>
     ';
@@ -182,6 +182,7 @@ if(
 $th_admin = '';
 if (user_can( $current_user, 'administrator' )) {
 	$th_admin = '
+		<th>NISN</th>
 		<th>Alamat Sekolah</th>
 		<th>Tempat Tanggal Lahir</th>
 		<th>Jenis Kelamin</th>
@@ -216,7 +217,6 @@ $return .= '
 				<th style="width: 150px;">No Pendaftaran</th>
 				<th>Nama</th>
 				<th style="width: 60%;">Asal Sekolah</th>
-				<th>NISN</th>
 				'.$th_admin.'
 			</tr>
 		</thead>
