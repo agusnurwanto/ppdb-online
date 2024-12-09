@@ -165,6 +165,7 @@ class Ppdb_Online {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'deactivate_plugin', $plugin_admin, 'prevent_ultimate_member_deactivation' );
 		$this->loader->add_action( 'user_register', $plugin_admin, 'after_register_siswa' );
 		$this->loader->add_action('carbon_fields_register_fields', $plugin_admin, 'crb_attach_ppdb_options');
 
@@ -187,6 +188,9 @@ class Ppdb_Online {
 		$this->loader->add_action( 'um_profile_menu',  $plugin_public, 'menu_bukti_pendaftaran' );
 		$this->loader->add_action( 'wp_ajax_data_pendaftar',  $plugin_public, 'daftar_siswa_shortcode' );
 		$this->loader->add_action( 'wp_ajax_nopriv_data_pendaftar',  $plugin_public, 'daftar_siswa_shortcode' );
+
+		// edit param registrasion
+		$this->loader->add_filter( 'um_add_user_frontend_submitted', $plugin_public, 'edit_pendaftaran_ppdb', 10, 2 );
 		
 		add_shortcode( 'beranda-ppdb', array($plugin_public, 'beranda_ppdb' ));
 		add_shortcode( 'customer-service-ppdb', array($plugin_public, 'customer_service_ppdb' ));

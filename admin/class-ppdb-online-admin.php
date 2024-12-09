@@ -231,12 +231,29 @@ class Ppdb_Online_Admin {
 			'no_key' => 1,
 			'post_status' => 'private'
 		));
+
+	    $login_url = '#';
+	    $register_url = '#';
+
+	    if(function_exists('UM')){
+			$options = UM()->options();
+			// print_r($options);
+
+			$page_id = $options->get( 'core_login' );
+			$login_url = get_permalink( $page_id );
+
+			$page_id = $options->get( 'core_register' );
+			$register_url = get_permalink( $page_id );
+		}
+
 	    $all_field = array(
 	    	Field::make('html', 'crb_shortcode_ppdb', 'Shortcode PPDB')
 			->set_html('
 				<h3>Halaman Terkait</h3>
 				<ul>
 					<li><a href="'.$beranda['url'].'" target="_blank">'.$beranda['title'].'</a></li>
+					<li><a href="'.$login_url.'" target="_blank">Halaman Masuk</a></li>
+					<li><a href="'.$register_url.'" target="_blank">Halaman Pendaftaran Siswa Baru</a></li>
 					<li><a href="'. $hubungi_admin['url'].'" target="_blank">'. $hubungi_admin['title'].'</a></li>
 					<li><a href="'.$bukti_pendaftaran['url'].'" target="_blank">'.$bukti_pendaftaran['title'].'</a></li>
 					<li><a href="'.$daftar_siswa['url'].'" target="_blank">'.$daftar_siswa['title'].'</a></li>
@@ -406,6 +423,22 @@ class Ppdb_Online_Admin {
         $ret .= $number;
         return $ret;
     }
+
+    function prevent_ultimate_member_deactivation($plugin) {
+	    if ($plugin === 'ultimate-member/ultimate-member.php') {
+	        if (is_plugin_active('ppdb-online/ppdb-online.php')) {
+	            add_filter('pre_update_option_active_plugins', function($active_plugins) use ($plugin) {
+	                return array_merge($active_plugins, array($plugin));
+	            });
+
+	            wp_die(
+	                'Plugin Ultimate Member tidak dapat dinonaktifkan saat plugin PPDB Online masih aktif. Nonaktifkan plugin PPDB Online terlebih dahulu.',
+	                'Kesalahan Penonaktifan Plugin',
+	                array('back_link' => true)
+	            );
+	        }
+	    }
+	}
 
     function um_add_default_field_to_form() {
 	    // Nama form Ultimate Member yang akan diperiksa

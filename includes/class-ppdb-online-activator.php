@@ -30,7 +30,17 @@ class Ppdb_Online_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		if (!is_plugin_active('ultimate-member/ultimate-member.php')) {
+	        // Batalkan aktivasi plugin
+	        deactivate_plugins(plugin_basename(__FILE__));
 
+	        // Tampilkan pesan error
+	        wp_die(
+	            'Plugin ini memerlukan Ultimate Member untuk diaktifkan. Silakan aktifkan Ultimate Member terlebih dahulu.',
+	            'Kesalahan Aktivasi Plugin',
+	            array('back_link' => true)
+	        );
+	    }
 	}
 
 }

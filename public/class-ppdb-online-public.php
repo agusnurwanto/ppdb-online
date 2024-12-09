@@ -164,4 +164,18 @@ class Ppdb_Online_Public {
 		echo $url_bukti_pendaftaran;
 	}
 
+	// filter form pendaftaran
+	function edit_pendaftaran_ppdb($submitted, $form_data){
+		$nisn = trim($submitted['nisn']);
+		if(empty($submitted['user_login'])){
+			$submitted['user_login'] = $nisn;
+		}
+		if(empty($submitted['user_email'])){
+			$site_url   = wp_parse_url( get_site_url(), PHP_URL_HOST );
+			$submitted['user_email'] = $nisn . '@' . $site_url;
+		}
+		
+		return $submitted;
+	}
+
 }
