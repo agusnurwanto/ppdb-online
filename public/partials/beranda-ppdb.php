@@ -17,7 +17,6 @@ $hubungi_admin = $this->functions->generatePage(array(
 ));
 
 $options = UM()->options();
-// print_r($options);
 
 $page_id = $options->get( 'core_login' );
 $login_url = get_permalink( $page_id );

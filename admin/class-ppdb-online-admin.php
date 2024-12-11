@@ -164,7 +164,7 @@ class Ppdb_Online_Admin {
 	        	update_option('default_role', $id_ppdb_enc);
 	        	$default_role = $roles[get_option('default_role')]['name'];
 		        if($default_role != $cek_role){
-		            $notif_role .= ' <span style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<span>';
+		            $notif_role .= ' <div style="color: red">Default role pendaftaran tidak sama dengan ID nomor urut pendaftaran. ('.$default_role.' != '.$cek_role.')<div>';
 		        }
 	        }
 	    }
@@ -235,6 +235,7 @@ class Ppdb_Online_Admin {
 	    $login_url = '#';
 	    $register_url = '#';
 
+	    $error_cek = '';
 	    if(function_exists('UM')){
 			$options = UM()->options();
 			// print_r($options);
@@ -244,11 +245,20 @@ class Ppdb_Online_Admin {
 
 			$page_id = $options->get( 'core_register' );
 			$register_url = get_permalink( $page_id );
+
+			$cek_form = $this->ppdb_add_default_field_to_form($options);
+			if($cek_form['status'] == 'error'){
+				$error_cek = "<div style='color: red'>".$cek_form['message']."</div>";
+			}
+		}else{
+			$error_cek = "<div style='color: red'>Plugin ini membutuhkan plugin Ultimate Member. Harap install dulu!</div>";
 		}
 
 	    $all_field = array(
 	    	Field::make('html', 'crb_shortcode_ppdb', 'Shortcode PPDB')
 			->set_html('
+				'.$error_cek.'
+				'.$notif_role.'
 				<h3>Halaman Terkait</h3>
 				<ul>
 					<li><a href="'.$beranda['url'].'" target="_blank">'.$beranda['title'].'</a></li>
@@ -282,26 +292,26 @@ class Ppdb_Online_Admin {
 			->set_default_value($option_ppdb['no_pendaftaran'])
 	    	->set_attribute( 'readOnly', 'true' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_tempat_lahir_meta_key', 'Tempat Lahir')
-			->set_default_value($option_ppdb['tempat_lahir'])
+	    $all_field[] = Field::make('checkbox', 'crb_tempat_lahir_meta_key', 'Tempat Lahir')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_tanggal_lahir_meta_key', 'Tanggal Lahir')
-			->set_default_value($option_ppdb['tanggal_lahir'])
+	    $all_field[] = Field::make('checkbox', 'crb_tanggal_lahir_meta_key', 'Tanggal Lahir')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_jenis_kelamin_meta_key', 'Jenis Kelamin')
-			->set_default_value($option_ppdb['jenis_kelamin'])
+	    $all_field[] = Field::make('checkbox', 'crb_jenis_kelamin_meta_key', 'Jenis Kelamin')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_asal_sekolah_meta_key', 'Asal Sekolah')
-			->set_default_value($option_ppdb['asal_sekolah'])
+	    $all_field[] = Field::make('checkbox', 'crb_asal_sekolah_meta_key', 'Asal Sekolah')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_nisn_meta_key', 'NISN')
-			->set_default_value($option_ppdb['nisn'])
+	    $all_field[] = Field::make('checkbox', 'crb_nisn_meta_key', 'NISN')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_alamat_meta_key', 'Alamat')
-			->set_default_value($option_ppdb['alamat'])
+	    $all_field[] = Field::make('checkbox', 'crb_alamat_meta_key', 'Alamat')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
-	    $all_field[] = Field::make('text', 'crb_no_tlp_meta_key', 'No. Tlp.')
-			->set_default_value($option_ppdb['no_tlp'])
+	    $all_field[] = Field::make('checkbox', 'crb_no_tlp_meta_key', 'No. Tlp.')
+			->set_option_value( '1' )
 			->set_help_text('Meta key yang digunakan di form pendaftaran ultimate member.');
 
 		$info_developer = '';
@@ -440,47 +450,167 @@ class Ppdb_Online_Admin {
 	    }
 	}
 
-    function um_add_default_field_to_form() {
-	    // Nama form Ultimate Member yang akan diperiksa
-	    $form_id = 'account'; // Atau 'profile', sesuai kebutuhan.
+    function ppdb_add_default_field_to_form($options) {
+    	// get halaman register
+	    $page_id = $options->get( 'core_register' );
+        if(empty($page_id)){
+        	return array(
+        		'error' => true,
+        		'message' => "Halaman registration plugin Ultimate Member belum disetting. Harap disetting dulu di menu Ultimate Member > Settings!"
+        	);
+        }
+		$post = get_post($page_id);
+		if (preg_match('/form_id="(\d+)"/', $post->post_content, $matches)) {
+		    $form_id = $matches[1];
+		} else {
+        	return array(
+        		'error' => true,
+        		'message' => "Form Shortcode registration belum ada di halaman $post->post_title!"
+        	);
+		}
 
-	    // Periksa apakah form sudah ada
-	    if (um_form_exists($form_id)) {
-	        // Ambil data form saat ini
-	        $fields = UM()->form()->get_form_fields($form_id);
+        $meta =  get_post_meta($form_id);
+        $cek_update = false;
+        $meta_key = '_um_custom_fields';
+        $meta_value = array(
+        	'_um_row_1' => array(
+	            'type' => 'row',
+	            'id' => '_um_row_1',
+	            'sub_rows' => '1',
+	            'cols' => '1',
+	            'origin' => '_um_row_1'
+	        ),
+        	'_um_row_2' => array(
+	            'type' => 'row',
+	            'id' => '_um_row_2',
+	            'sub_rows' => '1',
+	            'cols' => '2',
+	            'origin' => '_um_row_2'
+	        ),
+        	'_um_row_3' => array(
+	            'type' => 'row',
+	            'id' => '_um_row_3',
+	            'sub_rows' => '1',
+	            'cols' => '1',
+	            'origin' => '_um_row_3'
+	        ),
+        );
+        if(get_option('_crb_tempat_lahir_meta_key') == 1){
+        	$meta_value['tempat-lahir'] = array(
+        		'metakey' => 'tempat-lahir',
+        		'in_row' => '_um_row_2',
+	            'in_sub_row' => '0',
+	            'in_column' => '1',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'Tempat Lahir',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'Tempat Lahir',
+	            'position' => '1'
+        	);
+        }
+        if(get_option('_crb_tanggal_lahir_meta_key') == 1){
+        	$meta_value['tanggal-lahir'] = array(
+        		'metakey' => 'tanggal-lahir',
+        		'in_row' => '_um_row_2',
+	            'in_sub_row' => '0',
+	            'in_column' => '2',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'Tanggal Lahir',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'Tanggal Lahir',
+	            'position' => '2'
+        	);
+        }
+        if(get_option('_crb_jenis_kelamin_meta_key') == 1){
+        	$meta_value['jenis-kelamin'] = array(
+        		'metakey' => 'jenis-kelamin',
+        		'in_row' => '_um_row_1',
+	            'in_sub_row' => '0',
+	            'in_column' => '1',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'Jenis Kelamin',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'Jenis Kelamin',
+	            'position' => '3'
+        	);
+        }
+        if(get_option('_crb_asal_sekolah_meta_key') == 1){
+        	$meta_value['sekolah_asal'] = array(
+        		'metakey' => 'sekolah_asal',
+        		'in_row' => '_um_row_1',
+	            'in_sub_row' => '0',
+	            'in_column' => '1',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'Sekolah Asal',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'Sekolah Asal',
+	            'position' => '4'
+        	);
+        }
+        if(get_option('_crb_nisn_meta_key') == 1){
+        	$meta_value['nisn'] = array(
+        		'metakey' => 'nisn',
+        		'in_row' => '_um_row_1',
+	            'in_sub_row' => '0',
+	            'in_column' => '1',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'NISN',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'NISN',
+	            'position' => '5'
+        	);
+        }
+        if(get_option('_crb_no_tlp_meta_key') == 1){
+        	$meta_value['phone_number'] = array(
+        		'metakey' => 'phone_number',
+        		'in_row' => '_um_row_3',
+	            'in_sub_row' => '0',
+	            'in_column' => '1',
+	            'in_group' => '',
+	            'type' => 'text',
+	            'title' => 'Nomor WA',
+	            'visibility' => 'all',
+	            'public' => '1',
+	            'content' => 'Nomor WA',
+	            'position' => '6'
+        	);
+        }
+		// cek apakah ada field existing
+        if(!empty($meta['_um_custom_fields'])){
+			$fields = unserialize($meta['_um_custom_fields'][0]);
+			foreach($fields as $key => $field){
+				$meta_value[$key] = $field;
+			}
+			foreach($meta_value as $key => $field){
+				if(empty($fields[$key])){
+					$cek_update = true;
+					break;
+				}
+			}
+        }else{
+        	$cek_update = true;
+        }
 
-	        // Default field yang akan ditambahkan jika belum ada
-	        $default_field = array(
-	            'meta_key' => 'custom_field', // Ganti dengan meta_key yang Anda inginkan
-	            'title'    => 'Custom Field', // Label untuk field
-	            'type'     => 'text',         // Jenis field, bisa 'text', 'checkbox', dll.
-	            'required' => 0,              // Set 1 jika wajib diisi
-	        );
-
-	        // Periksa apakah field sudah ada di form
-	        $field_exists = false;
-
-	        foreach ($fields as $field) {
-	            if ($field['meta_key'] === $default_field['meta_key']) {
-	                $field_exists = true;
-	                break;
-	            }
-	        }
-
-	        // Jika field belum ada, tambahkan ke form
-	        if (!$field_exists) {
-	            UM()->form()->save_form_fields(
-	                $form_id,
-	                array_merge($fields, array($default_field))
-	            );
-
-	            // Notifikasi berhasil
-	            add_action('admin_notices', function () {
-	                echo '<div class="notice notice-success is-dismissible">
-	                    <p>Field default telah ditambahkan ke form Account/Profile.</p>
-	                </div>';
-	            });
-	        }
-	    }
+        // https://wordpress.org/support/topic/custom-field-with-my-own-code/
+        // update_post_meta($form_id, $meta_key, array());
+       	// print_r($meta_value); die('form_id = '.$form_id);
+        if($cek_update == true){
+        	update_post_meta($form_id, $meta_key, $meta_value);
+            $message = '<div class="notice notice-success is-dismissible"><p>Field default telah ditambahkan ke form '.$post->post_title.'.</p></div>';
+            add_action('admin_notices', function() use ($message){ 
+			    echo $message; 
+			});
+        }
+        return array('status' => 'success');
 	}
 }
