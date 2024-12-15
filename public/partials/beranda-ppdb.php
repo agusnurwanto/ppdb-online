@@ -23,6 +23,8 @@ $login_url = get_permalink( $page_id );
 
 $page_id = $options->get( 'core_register' );
 $register_url = get_permalink( $page_id );
+
+$background = get_option('_crb_ppdb_background');
 ?>
 <style type="text/css">
     .circle-logo {
@@ -55,3 +57,10 @@ $register_url = get_permalink( $page_id );
         </div>
     </div>
 </div>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    if('<?php echo $background; ?>' != ''){
+        jQuery('body').css("background", "url('<?php echo $background; ?>') center center / cover");
+    }
+});
+</script>

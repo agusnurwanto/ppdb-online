@@ -336,6 +336,8 @@ class Ppdb_Online_Admin {
 			->add_fields(array(
 				Field::make( 'image', 'crb_ppdb_logo', 'Logo Beranda' )
     				->set_value_type( 'url' ),
+				Field::make( 'image', 'crb_ppdb_background', 'Background Beranda' )
+    				->set_value_type( 'url' ),
 				Field::make('text', 'crb_ppdb_no_wa_1', 'Nomor WA Admin 1')
 	    			->set_attribute( 'type', 'number' ),
 				Field::make('text', 'crb_ppdb_nama_wa_1', 'Nama WA Admin 1'),
