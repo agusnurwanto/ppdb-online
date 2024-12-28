@@ -420,7 +420,7 @@ class Ppdb_Online_Admin {
     		$max_no = ($option_ppdb['no_awal_pendaftar'])-1;
     	}
     	
-    	update_usermeta($user_id, 'no_pendaftaran', $id_ppdb.$this->CekNull($max_no+1, 4));
+    	update_user_meta($user_id, 'no_pendaftaran', $id_ppdb.$this->CekNull($max_no+1, 4));
     	return $user_id;
 	}
 	
@@ -474,119 +474,7 @@ class Ppdb_Online_Admin {
         $meta =  get_post_meta($form_id);
         $cek_update = false;
         $meta_key = '_um_custom_fields';
-        $meta_value = array(
-        	'_um_row_1' => array(
-	            'type' => 'row',
-	            'id' => '_um_row_1',
-	            'sub_rows' => '1',
-	            'cols' => '1',
-	            'origin' => '_um_row_1'
-	        ),
-        	'_um_row_2' => array(
-	            'type' => 'row',
-	            'id' => '_um_row_2',
-	            'sub_rows' => '1',
-	            'cols' => '2',
-	            'origin' => '_um_row_2'
-	        ),
-        	'_um_row_3' => array(
-	            'type' => 'row',
-	            'id' => '_um_row_3',
-	            'sub_rows' => '1',
-	            'cols' => '1',
-	            'origin' => '_um_row_3'
-	        ),
-        );
-        if(get_option('_crb_tempat_lahir_meta_key') == 1){
-        	$meta_value['tempat-lahir'] = array(
-        		'metakey' => 'tempat-lahir',
-        		'in_row' => '_um_row_2',
-	            'in_sub_row' => '0',
-	            'in_column' => '1',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'Tempat Lahir',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'Tempat Lahir',
-	            'position' => '1'
-        	);
-        }
-        if(get_option('_crb_tanggal_lahir_meta_key') == 1){
-        	$meta_value['tanggal-lahir'] = array(
-        		'metakey' => 'tanggal-lahir',
-        		'in_row' => '_um_row_2',
-	            'in_sub_row' => '0',
-	            'in_column' => '2',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'Tanggal Lahir',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'Tanggal Lahir',
-	            'position' => '2'
-        	);
-        }
-        if(get_option('_crb_jenis_kelamin_meta_key') == 1){
-        	$meta_value['jenis-kelamin'] = array(
-        		'metakey' => 'jenis-kelamin',
-        		'in_row' => '_um_row_1',
-	            'in_sub_row' => '0',
-	            'in_column' => '1',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'Jenis Kelamin',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'Jenis Kelamin',
-	            'position' => '3'
-        	);
-        }
-        if(get_option('_crb_asal_sekolah_meta_key') == 1){
-        	$meta_value['sekolah_asal'] = array(
-        		'metakey' => 'sekolah_asal',
-        		'in_row' => '_um_row_1',
-	            'in_sub_row' => '0',
-	            'in_column' => '1',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'Sekolah Asal',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'Sekolah Asal',
-	            'position' => '4'
-        	);
-        }
-        if(get_option('_crb_nisn_meta_key') == 1){
-        	$meta_value['nisn'] = array(
-        		'metakey' => 'nisn',
-        		'in_row' => '_um_row_1',
-	            'in_sub_row' => '0',
-	            'in_column' => '1',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'NISN',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'NISN',
-	            'position' => '5'
-        	);
-        }
-        if(get_option('_crb_no_tlp_meta_key') == 1){
-        	$meta_value['phone_number'] = array(
-        		'metakey' => 'phone_number',
-        		'in_row' => '_um_row_3',
-	            'in_sub_row' => '0',
-	            'in_column' => '1',
-	            'in_group' => '',
-	            'type' => 'text',
-	            'title' => 'Nomor WA',
-	            'visibility' => 'all',
-	            'public' => '1',
-	            'content' => 'Nomor WA',
-	            'position' => '6'
-        	);
-        }
+        $meta_value = $this->functions->get_um_settings();
 		// cek apakah ada field existing
         if(!empty($meta['_um_custom_fields'])){
 			$fields = unserialize($meta['_um_custom_fields'][0]);

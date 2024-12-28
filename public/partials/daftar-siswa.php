@@ -15,57 +15,50 @@ $users = get_users( array(
 	'orderby'	=>  'meta_value_num',
 	'order'	=>  'ASC'
 ) );
-$option_ppdb = array(
-    'no_pendaftaran' => get_option('_crb_no_pendaftaran_meta_key'),
-    'tempat_lahir' => get_option('_crb_tempat_lahir_meta_key'),
-    'tanggal_lahir' => get_option('_crb_tanggal_lahir_meta_key'),
-    'jenis_kelamin' => get_option('_crb_jenis_kelamin_meta_key'),
-    'asal_sekolah' => get_option('_crb_asal_sekolah_meta_key'),
-    'nisn' => get_option('_crb_nisn_meta_key'),
-    'alamat' => get_option('_crb_alamat_meta_key'),
-    'no_tlp' => get_option('_crb_no_tlp_meta_key')
-);
+$option_ppdb = $this->functions->get_um_settings();
+
 $current_user = wp_get_current_user();
 $body = '';
 foreach($users as $user_id){
     $metas = get_user_meta ( $user_id->ID);
 	// print_r($metas); die();
 	$no_pendaftaran = '';
-    if(!empty($option_ppdb['no_pendaftaran']) && !empty($metas[$option_ppdb['no_pendaftaran']])){
-        $no_pendaftaran = $metas[$option_ppdb['no_pendaftaran']][0];
-    }
-    $tempat_lahir = '';
-    if(!empty($option_ppdb['tempat_lahir']) && !empty($metas[$option_ppdb['tempat_lahir']])){
-        $tempat_lahir = $metas[$option_ppdb['tempat_lahir']][0];
-    }
-    $tanggal_lahir = '';
-    if(!empty($option_ppdb['tanggal_lahir']) && !empty($metas[$option_ppdb['tanggal_lahir']])){
-        $tanggal_lahir = $metas[$option_ppdb['tanggal_lahir']][0];
-    }
-    $jenis_kelamin = '';
-    if(!empty($option_ppdb['jenis_kelamin']) && !empty($metas[$option_ppdb['jenis_kelamin']])){
-        $jenis_kelamin = unserialize($metas[$option_ppdb['jenis_kelamin']][0]);
-        $jenis_kelamin = $jenis_kelamin[0];
-    }
-    $asal_sekolah = '';
-    if(!empty($option_ppdb['asal_sekolah']) && !empty($metas[$option_ppdb['asal_sekolah']])){
-        $asal_sekolah = $metas[$option_ppdb['asal_sekolah']][0];
-    }
+	if(!empty($user_meta['no_pendaftaran'])){
+	    $no_pendaftaran = $user_meta['no_pendaftaran'][0];
+	}
+	$tempat_lahir = '';
+	if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat_lahir'])){
+	    $tempat_lahir = $user_meta['tempat_lahir'][0];
+	}
+	$tanggal_lahir = '';
+	if(!empty($option_ppdb['tanggal-lahir']) && !empty($user_meta['tanggal-lahir'])){
+	    $tanggal_lahir = $user_meta['tanggal-lahir'][0];
+	}
+	$jenis_kelamin = '';
+	if(!empty($option_ppdb['jenis-kelamin']) && !empty($user_meta['jenis-kelamin'])){
+	    $jenis_kelamin = unserialize($user_meta['jenis-kelamin'][0]);
+	    $jenis_kelamin = $jenis_kelamin[0];
+	}
+	$asal_sekolah = '';
+	if(!empty($option_ppdb['sekolah_asal']) && !empty($user_meta['sekolah_asal'])){
+	    $asal_sekolah = $user_meta['sekolah_asal'][0];
+	}
+	$nisn = '';
+	if(!empty($option_ppdb['nisn']) && !empty($user_meta['nisn'])){
+	    $nisn = $user_meta['nisn'][0];
+	}
+	$alamat = '';
+	if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($user_meta['alamat-calon-siswa'])){
+	    $alamat = $user_meta['alamat-calon-siswa'][0];
+	}
+	$no_tlp = '';
+	if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
+	    $no_tlp = $user_meta['phone_number'][0];
+	}
+
     $alamat_sekolah = '';
     if(!empty($metas['alamat-asal-sekolah'])){
         $alamat_sekolah = $metas['alamat-asal-sekolah'][0];
-    }
-    $nisn = '';
-    if(!empty($option_ppdb['nisn']) && !empty($metas[$option_ppdb['nisn']])){
-        $nisn = $metas[$option_ppdb['nisn']][0];
-    }
-    $alamat = '';
-    if(!empty($option_ppdb['alamat']) && !empty($metas[$option_ppdb['alamat']])){
-        $alamat = $metas[$option_ppdb['alamat']][0];
-    }
-    $no_tlp = '';
-    if(!empty($option_ppdb['no_tlp']) && !empty($metas[$option_ppdb['no_tlp']])){
-        $no_tlp = $metas[$option_ppdb['no_tlp']][0];
     }
     $agama = '';
     if(!empty($metas['agama'])){

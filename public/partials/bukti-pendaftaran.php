@@ -7,58 +7,50 @@ if(empty($_GET) || empty($_GET['user_id'])){
     die('<h1 class="text-center">user_id tidak boleh kosong!</h1>');
 }
 $user_id = sanitize_text_field($_GET['user_id']);
-$user_meta = get_user_meta ( $user_id );
+$user_meta = get_user_meta( $user_id );
 if(empty($user_meta)){
     die('<h1 class="text-center">Siswa dengan user_id '.$_GET['user_id'].' tidak ditemukan!</h1>');
 }
 $first_name = $user_meta['first_name'][0];
 // print_r($user_meta); die();
 $udata = get_userdata( $user_id );
-$option_ppdb = array(
-    'no_pendaftaran' => get_option('_crb_no_pendaftaran_meta_key'),
-    'tempat_lahir' => get_option('_crb_tempat_lahir_meta_key'),
-    'tanggal_lahir' => get_option('_crb_tanggal_lahir_meta_key'),
-    'jenis_kelamin' => get_option('_crb_jenis_kelamin_meta_key'),
-    'asal_sekolah' => get_option('_crb_asal_sekolah_meta_key'),
-    'nisn' => get_option('_crb_nisn_meta_key'),
-    'alamat' => get_option('_crb_alamat_meta_key'),
-    'no_tlp' => get_option('_crb_no_tlp_meta_key')
-);
+$option_ppdb = $this->functions->get_um_settings();
+
 // print_r($option_ppdb); die();
 
 $registered = $udata->user_registered;
 $no_pendaftaran = '';
-if(!empty($option_ppdb['no_pendaftaran']) && !empty($user_meta[$option_ppdb['no_pendaftaran']])){
-    $no_pendaftaran = $user_meta[$option_ppdb['no_pendaftaran']][0];
+if(!empty($user_meta['no_pendaftaran'])){
+    $no_pendaftaran = $user_meta['no_pendaftaran'][0];
 }
 $tempat_lahir = '';
-if(!empty($option_ppdb['tempat_lahir']) && !empty($user_meta[$option_ppdb['tempat_lahir']])){
-    $tempat_lahir = $user_meta[$option_ppdb['tempat_lahir']][0];
+if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat_lahir'])){
+    $tempat_lahir = $user_meta['tempat_lahir'][0];
 }
 $tanggal_lahir = '';
-if(!empty($option_ppdb['tanggal_lahir']) && !empty($user_meta[$option_ppdb['tanggal_lahir']])){
-    $tanggal_lahir = $user_meta[$option_ppdb['tanggal_lahir']][0];
+if(!empty($option_ppdb['tanggal-lahir']) && !empty($user_meta['tanggal-lahir'])){
+    $tanggal_lahir = $user_meta['tanggal-lahir'][0];
 }
 $jenis_kelamin = '';
-if(!empty($option_ppdb['jenis_kelamin']) && !empty($user_meta[$option_ppdb['jenis_kelamin']])){
-    $jenis_kelamin = unserialize($user_meta[$option_ppdb['jenis_kelamin']][0]);
+if(!empty($option_ppdb['jenis-kelamin']) && !empty($user_meta['jenis-kelamin'])){
+    $jenis_kelamin = unserialize($user_meta['jenis-kelamin'][0]);
     $jenis_kelamin = $jenis_kelamin[0];
 }
 $asal_sekolah = '';
-if(!empty($option_ppdb['asal_sekolah']) && !empty($user_meta[$option_ppdb['asal_sekolah']])){
-    $asal_sekolah = $user_meta[$option_ppdb['asal_sekolah']][0];
+if(!empty($option_ppdb['sekolah_asal']) && !empty($user_meta['sekolah_asal'])){
+    $asal_sekolah = $user_meta['sekolah_asal'][0];
 }
 $nisn = '';
-if(!empty($option_ppdb['nisn']) && !empty($user_meta[$option_ppdb['nisn']])){
-    $nisn = $user_meta[$option_ppdb['nisn']][0];
+if(!empty($option_ppdb['nisn']) && !empty($user_meta['nisn'])){
+    $nisn = $user_meta['nisn'][0];
 }
 $alamat = '';
-if(!empty($option_ppdb['alamat']) && !empty($user_meta[$option_ppdb['alamat']])){
-    $alamat = $user_meta[$option_ppdb['alamat']][0];
+if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($user_meta['alamat-calon-siswa'])){
+    $alamat = $user_meta['alamat-calon-siswa'][0];
 }
 $no_tlp = '';
-if(!empty($option_ppdb['no_tlp']) && !empty($user_meta[$option_ppdb['no_tlp']])){
-    $no_tlp = $user_meta[$option_ppdb['no_tlp']][0];
+if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
+    $no_tlp = $user_meta['phone_number'][0];
 }
 ?>
 <div id="wrap-pendaftaran">
