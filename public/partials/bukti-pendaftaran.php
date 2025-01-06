@@ -52,6 +52,11 @@ $no_tlp = '';
 if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
     $no_tlp = $user_meta['phone_number'][0];
 }
+
+$tahun_pendaftaran = get_option('_crb_tahun_pendaftaran');
+if(empty($tahun_pendaftaran)){
+    $tahun_pendaftaran = date('Y');
+}
 ?>
 <div id="wrap-pendaftaran">
     <style type="text/css">
@@ -156,7 +161,7 @@ if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
                 <br>
                 <font size="3" style="font-size: 12pt">
                     <b>
-                        TAHUN PELAJARAN 2020/2021
+                        TAHUN PELAJARAN <?php echo $tahun_pendaftaran.'/'.($tahun_pendaftaran+1); ?>
                     </b>
                 </font>
             </font>
@@ -315,7 +320,7 @@ if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
                     <p lang="en-US" style="margin-bottom: 0in; text-align: center">
                         <font face="Times New Roman, serif">
                             <font size="3" style="font-size: 12pt">
-                                ................., ..........................2020
+                                ................., ..........................<?php echo $tahun_pendaftaran; ?>
                                 <br/>
                                 <br/>
                                 Pendaftar

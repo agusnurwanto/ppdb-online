@@ -284,6 +284,10 @@ class Ppdb_Online_Admin {
 			->set_default_value($option_ppdb['no_pendaftaran_otomatis'])
 			->set_option_value( 'yes' )
 			->set_help_text('Jika dichecklist maka nomor urut pendaftaran akan berformat (tahun,bulan,tanggal)');
+	    $all_field[] = Field::make('text', 'crb_tahun_pendaftaran', 'Tahun Pendaftaran')
+	    	->set_attribute( 'type', 'number' )
+			->set_default_value(date('Y'))
+			->set_help_text('Tahun pendaftaran akan ditampilkan di halaman bukti pendaftaran.');
 	    $all_field[] = Field::make('text', 'crb_no_awal_pendaftar', 'Nomor awal pendaftar')
 	    	->set_attribute( 'type', 'number' )
 			->set_default_value($option_ppdb['no_awal_pendaftar'])
@@ -397,11 +401,16 @@ class Ppdb_Online_Admin {
 	function after_register_siswa($user_id){
 		global $wpdb;
     	$id_ppdb = date('Y');
-    	$option_ppdb = get_option('ppdb_options');
-    	if(!empty($option_ppdb['no_pendaftaran_otomatis'])){
+    	$no_pendaftaran_otomatis = get_option('_crb_no_pendaftaran_otomatis');
+    	$id_ppdb_setting = get_option('_crb_id_ppdb');
+    	$no_awal_pendaftar = get_option('_crb_no_awal_pendaftar');
+    	if(
+    		!empty($no_pendaftaran_otomatis)
+    		&& $no_pendaftaran_otomatis == 'yes'
+    	){
 			$id_ppdb = date('Ymd');
-	    }else if(!empty($option_ppdb['id_ppdb'])){
-    		$id_ppdb = $option_ppdb['id_ppdb'];
+	    }else if(!empty($id_ppdb_setting)){
+    		$id_ppdb = $id_ppdb_setting;
     	}
 		
     	$zero = 0;
@@ -416,8 +425,8 @@ class Ppdb_Online_Admin {
     	    $max_no = str_replace($id_ppdb, '', $max_no) * 1;
     	}
 
-    	if($max_no < $option_ppdb['no_awal_pendaftar']){
-    		$max_no = ($option_ppdb['no_awal_pendaftar'])-1;
+    	if($max_no < $no_awal_pendaftar){
+    		$max_no = ($no_awal_pendaftar)-1;
     	}
     	
     	update_user_meta($user_id, 'no_pendaftaran', $id_ppdb.$this->CekNull($max_no+1, 4));

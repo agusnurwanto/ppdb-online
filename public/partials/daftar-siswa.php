@@ -116,14 +116,14 @@ foreach($users as $user_id){
 	if (user_can( $current_user, 'administrator' )) {
 		$data_admin = '
 			<td style="text-align: center;">'.$nisn.'</td>
-			<td style="text-align: left;">'.$alamat_sekolah.'</td>
+			<!-- <td style="text-align: left;">'.$alamat_sekolah.'</td> -->
 			<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
 			<td style="text-align: left;">'.$alamat.'</td>
 			<td style="text-align: center;">'.$no_tlp.'</td>
 			<td style="text-align: left;">'.$nama_ayah.'</td>
 			<td style="text-align: left;">'.$no_ayah.'</td>
-			<td style="text-align: left;">'.$pekerjaan_ayah.'</td>
+			<!-- <td style="text-align: left;">'.$pekerjaan_ayah.'</td>
 			<td style="text-align: left;">'.$penghasilan_ayah.'</td>
 			<td style="text-align: center;">'.$agama.'</td>
 			<td style="text-align: left;">'.$nama_ibu.'</td>
@@ -132,7 +132,7 @@ foreach($users as $user_id){
 			<td style="text-align: left;">'.$nama_wali.'</td>
 			<td style="text-align: left;">'.$pekerjaan_wali.'</td>
 			<td style="text-align: left;">'.$penghasilan_wali.'</td>
-			<td style="text-align: left;">'.$sertifikat.'</td>
+			<td style="text-align: left;">'.$sertifikat.'</td> -->
 		';
 	}
     $body.='
@@ -181,14 +181,14 @@ $th_admin = '';
 if (user_can( $current_user, 'administrator' )) {
 	$th_admin = '
 		<th>NISN</th>
-		<th>Alamat Sekolah</th>
+		<!-- <th>Alamat Sekolah</th> -->
 		<th>Tempat Tanggal Lahir</th>
 		<th>Jenis Kelamin</th>
 		<th>Alamat Rumah</th>
 		<th>No. Tlp.</th>
 		<th>Ayah Kandung</th>
 		<th>No. Ayah</th>
-		<th>Pekerjaan Ayah</th>
+		<!-- <th>Pekerjaan Ayah</th>
 		<th>Penghasilan Ayah</th>
 		<th>Agama</th>
 		<th>Ibu Kandung</th>
@@ -197,7 +197,7 @@ if (user_can( $current_user, 'administrator' )) {
 		<th>Wali</th>
 		<th>Pekerjaan Wali</th>
 		<th>Penghasilan Wali</th>
-		<th>Sertifikat</th>
+		<th>Sertifikat</th> -->
 	';
 }
 $return .= '
@@ -207,6 +207,10 @@ $return .= '
     max-height: 90vh;
     max-width: 98vw;
     margin: auto;
+}
+.container-ppdb thead th {
+	vertical-align: middle;
+	text-align: center;
 }
 </style>
 <div class="container-ppdb">
