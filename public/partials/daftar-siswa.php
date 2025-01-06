@@ -20,40 +20,40 @@ $option_ppdb = $this->functions->get_um_settings();
 $current_user = wp_get_current_user();
 $body = '';
 foreach($users as $user_id){
-    $metas = get_user_meta ( $user_id->ID);
+    $metas = get_user_meta( $user_id->ID);
 	// print_r($metas); die();
 	$no_pendaftaran = '';
-	if(!empty($user_meta['no_pendaftaran'])){
-	    $no_pendaftaran = $user_meta['no_pendaftaran'][0];
+	if(!empty($metas['no_pendaftaran'])){
+	    $no_pendaftaran = $metas['no_pendaftaran'][0];
 	}
 	$tempat_lahir = '';
-	if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat_lahir'])){
-	    $tempat_lahir = $user_meta['tempat_lahir'][0];
+	if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat_lahir'])){
+	    $tempat_lahir = $metas['tempat_lahir'][0];
 	}
 	$tanggal_lahir = '';
-	if(!empty($option_ppdb['tanggal-lahir']) && !empty($user_meta['tanggal-lahir'])){
-	    $tanggal_lahir = $user_meta['tanggal-lahir'][0];
+	if(!empty($option_ppdb['tanggal-lahir']) && !empty($metas['tanggal-lahir'])){
+	    $tanggal_lahir = $metas['tanggal-lahir'][0];
 	}
 	$jenis_kelamin = '';
-	if(!empty($option_ppdb['jenis-kelamin']) && !empty($user_meta['jenis-kelamin'])){
-	    $jenis_kelamin = unserialize($user_meta['jenis-kelamin'][0]);
+	if(!empty($option_ppdb['jenis-kelamin']) && !empty($metas['jenis-kelamin'])){
+	    $jenis_kelamin = unserialize($metas['jenis-kelamin'][0]);
 	    $jenis_kelamin = $jenis_kelamin[0];
 	}
 	$asal_sekolah = '';
-	if(!empty($option_ppdb['sekolah_asal']) && !empty($user_meta['sekolah_asal'])){
-	    $asal_sekolah = $user_meta['sekolah_asal'][0];
+	if(!empty($option_ppdb['sekolah_asal']) && !empty($metas['sekolah_asal'])){
+	    $asal_sekolah = $metas['sekolah_asal'][0];
 	}
 	$nisn = '';
-	if(!empty($option_ppdb['nisn']) && !empty($user_meta['nisn'])){
-	    $nisn = $user_meta['nisn'][0];
+	if(!empty($option_ppdb['nisn']) && !empty($metas['nisn'])){
+	    $nisn = $metas['nisn'][0];
 	}
 	$alamat = '';
-	if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($user_meta['alamat-calon-siswa'])){
-	    $alamat = $user_meta['alamat-calon-siswa'][0];
+	if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($metas['alamat-calon-siswa'])){
+	    $alamat = $metas['alamat-calon-siswa'][0];
 	}
 	$no_tlp = '';
-	if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
-	    $no_tlp = $user_meta['phone_number'][0];
+	if(!empty($option_ppdb['phone_number']) && !empty($metas['phone_number'])){
+	    $no_tlp = $metas['phone_number'][0];
 	}
 
     $alamat_sekolah = '';
@@ -67,6 +67,10 @@ foreach($users as $user_id){
     $nama_ayah = '';
     if(!empty($metas['nama_ayah'])){
         $nama_ayah = $metas['nama_ayah'][0];
+    }
+    $no_ayah = '';
+    if(!empty($metas['wa_orang_tua'])){
+        $no_ayah = $metas['wa_orang_tua'][0];
     }
     $pekerjaan_ayah = '';
     if(!empty($metas['pekerjaan_ayah'])){
@@ -117,10 +121,11 @@ foreach($users as $user_id){
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
 			<td style="text-align: left;">'.$alamat.'</td>
 			<td style="text-align: center;">'.$no_tlp.'</td>
-			<td style="text-align: center;">'.$agama.'</td>
 			<td style="text-align: left;">'.$nama_ayah.'</td>
+			<td style="text-align: left;">'.$no_ayah.'</td>
 			<td style="text-align: left;">'.$pekerjaan_ayah.'</td>
 			<td style="text-align: left;">'.$penghasilan_ayah.'</td>
+			<td style="text-align: center;">'.$agama.'</td>
 			<td style="text-align: left;">'.$nama_ibu.'</td>
 			<td style="text-align: left;">'.$pekerjaan_ibu.'</td>
 			<td style="text-align: left;">'.$penghasilan_ibu.'</td>
@@ -181,10 +186,11 @@ if (user_can( $current_user, 'administrator' )) {
 		<th>Jenis Kelamin</th>
 		<th>Alamat Rumah</th>
 		<th>No. Tlp.</th>
-		<th>Agama</th>
 		<th>Ayah Kandung</th>
+		<th>No. Ayah</th>
 		<th>Pekerjaan Ayah</th>
 		<th>Penghasilan Ayah</th>
+		<th>Agama</th>
 		<th>Ibu Kandung</th>
 		<th>Pekerjaan Ibu</th>
 		<th>Penghasilan Ibu</th>
