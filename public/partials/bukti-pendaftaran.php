@@ -24,8 +24,8 @@ if(!empty($user_meta['no_pendaftaran'])){
     $no_pendaftaran = $user_meta['no_pendaftaran'][0];
 }
 $tempat_lahir = '';
-if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat_lahir'])){
-    $tempat_lahir = $user_meta['tempat_lahir'][0];
+if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat-lahir'])){
+    $tempat_lahir = $user_meta['tempat-lahir'][0];
 }
 $tanggal_lahir = '';
 if(!empty($option_ppdb['tanggal-lahir']) && !empty($user_meta['tanggal-lahir'])){

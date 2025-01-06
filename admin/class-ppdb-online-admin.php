@@ -292,6 +292,12 @@ class Ppdb_Online_Admin {
 	    	->set_attribute( 'type', 'number' )
 			->set_default_value($option_ppdb['no_awal_pendaftar'])
 			->set_help_text('Nomor awal pendaftar defaultnya dimulai dari angka 1.');
+	    $all_field[] = Field::make('text', 'crb_ppdb_token_bot_tg', 'Token Bot')
+	    	->set_attribute( 'type', 'text' )
+			->set_help_text('Token Bot Telegram yang sudah dibuat.');
+	    $all_field[] = Field::make('text', 'crb_ppdb_username_tg', 'Chanel ID / Akun ID Telegram')
+	    	->set_attribute( 'type', 'text' )
+			->set_help_text('Chanel ID / Akun ID Telegram yang akan digunakan untuk menerima pesan ketika ada pendaftar baru.');
 	    $all_field[] = Field::make('text', 'crb_no_pendaftaran_meta_key', 'No Pendaftaran')
 			->set_default_value($option_ppdb['no_pendaftaran'])
 	    	->set_attribute( 'readOnly', 'true' )
@@ -429,7 +435,70 @@ class Ppdb_Online_Admin {
     		$max_no = ($no_awal_pendaftar)-1;
     	}
     	
-    	update_user_meta($user_id, 'no_pendaftaran', $id_ppdb.$this->CekNull($max_no+1, 4));
+    	$no_pendaftaran = $id_ppdb.$this->CekNull($max_no+1, 4);
+    	update_user_meta($user_id, 'no_pendaftaran', $no_pendaftaran);
+
+    	$token = get_option('_crb_ppdb_token_bot_tg');
+    	$akun_id = get_option('_crb_ppdb_username_tg');
+    	if(!empty($token) && !empty($akun_id)){
+    		$metas = get_user_meta( $user_id );
+    		$option_ppdb = $this->functions->get_um_settings();
+    		$tempat_lahir = '';
+			if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat-lahir'])){
+			    $tempat_lahir = $metas['tempat-lahir'][0];
+			}
+			$tanggal_lahir = '';
+			if(!empty($option_ppdb['tanggal-lahir']) && !empty($metas['tanggal-lahir'])){
+			    $tanggal_lahir = $metas['tanggal-lahir'][0];
+			}
+			$jenis_kelamin = '';
+			if(!empty($option_ppdb['jenis-kelamin']) && !empty($metas['jenis-kelamin'])){
+			    $jenis_kelamin = unserialize($metas['jenis-kelamin'][0]);
+			    $jenis_kelamin = $jenis_kelamin[0];
+			}
+			$asal_sekolah = '';
+			if(!empty($option_ppdb['sekolah_asal']) && !empty($metas['sekolah_asal'])){
+			    $asal_sekolah = $metas['sekolah_asal'][0];
+			}
+			$nisn = '';
+			if(!empty($option_ppdb['nisn']) && !empty($metas['nisn'])){
+			    $nisn = $metas['nisn'][0];
+			}
+			$alamat = '';
+			if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($metas['alamat-calon-siswa'])){
+			    $alamat = $metas['alamat-calon-siswa'][0];
+			}
+			$no_tlp = '';
+			if(!empty($option_ppdb['phone_number']) && !empty($metas['phone_number'])){
+			    $no_tlp = $metas['phone_number'][0];
+			}
+		    $jalur_pendaftaran = '';
+		    if(!empty($metas['jalur_pendaftaran'])){
+		        $jalur_pendaftaran = unserialize($metas['jalur_pendaftaran'][0]);
+		        $jalur_pendaftaran = $jalur_pendaftaran[0];
+		    }
+		    $nama_ayah = '';
+		    if(!empty($metas['nama_ayah'])){
+		        $nama_ayah = $metas['nama_ayah'][0];
+		    }
+		    $no_ayah = '';
+		    if(!empty($metas['wa_orang_tua'])){
+		        $no_ayah = $metas['wa_orang_tua'][0];
+		    }
+		    $nama_lengkap = $metas['first_name'][0];
+		    $tahun_pendaftaran = get_option('_crb_tahun_pendaftaran');
+			if(empty($tahun_pendaftaran)){
+			    $tahun_pendaftaran = date('Y');
+			}
+			$message = "<b>Pendaftar baru tahun pelajaran ".$tahun_pendaftaran.'/'.($tahun_pendaftaran+1)."</b>\n\n<b>Nama</b>: $nama_lengkap\n<b>No pendaftaran:</b> $no_pendaftaran\n<b>Asal Sekolah:</b> $asal_sekolah\n<b>NISN:</b> $nisn\n<b>Jalur Pendaftaran:</b> $jalur_pendaftaran\n<b>Tempat Tanggal Lahir:</b> $tempat_lahir, $tanggal_lahir\n<b>Jenis Kelamin:</b> $jenis_kelamin\n<b>Alamat Rumah:</b> $alamat\n<b>No. Tlp.:</b> $no_tlp\n<b>Ayah Kandung:</b> $nama_ayah\n<b>No. Ayah:</b> $no_ayah";
+    		$this->functions->send_tg(array(
+    			'token' => $token,
+    			'id_akun' => $akun_id,
+    			'message' => $message,
+    			'parse_mode' => 'HTML'
+    		));
+    	}
+
     	return $user_id;
 	}
 	

@@ -19,6 +19,7 @@ $option_ppdb = $this->functions->get_um_settings();
 
 $current_user = wp_get_current_user();
 $body = '';
+$cek_send = false;
 foreach($users as $user_id){
     $metas = get_user_meta( $user_id->ID);
 	// print_r($metas); die();
@@ -27,8 +28,8 @@ foreach($users as $user_id){
 	    $no_pendaftaran = $metas['no_pendaftaran'][0];
 	}
 	$tempat_lahir = '';
-	if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat_lahir'])){
-	    $tempat_lahir = $metas['tempat_lahir'][0];
+	if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat-lahir'])){
+	    $tempat_lahir = $metas['tempat-lahir'][0];
 	}
 	$tanggal_lahir = '';
 	if(!empty($option_ppdb['tanggal-lahir']) && !empty($metas['tanggal-lahir'])){
@@ -55,6 +56,12 @@ foreach($users as $user_id){
 	if(!empty($option_ppdb['phone_number']) && !empty($metas['phone_number'])){
 	    $no_tlp = $metas['phone_number'][0];
 	}
+
+    $jalur_pendaftaran = '';
+    if(!empty($metas['jalur_pendaftaran'])){
+        $jalur_pendaftaran = unserialize($metas['jalur_pendaftaran'][0]);
+        $jalur_pendaftaran = $jalur_pendaftaran[0];
+    }
 
     $alamat_sekolah = '';
     if(!empty($metas['alamat-asal-sekolah'])){
@@ -116,6 +123,7 @@ foreach($users as $user_id){
 	if (user_can( $current_user, 'administrator' )) {
 		$data_admin = '
 			<td style="text-align: center;">'.$nisn.'</td>
+    		<td style="text-align: left;">'.$jalur_pendaftaran.'</td>
 			<!-- <td style="text-align: left;">'.$alamat_sekolah.'</td> -->
 			<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
@@ -143,7 +151,34 @@ foreach($users as $user_id){
     		'.$data_admin.'
     	</tr>
     ';
+
+	if(
+		!empty($_GET) 
+		&& !empty($_GET['send_tg']) 
+		&& !empty($metas)
+		&& $cek_send == false
+	){
+		$cek_send = true;
+		$token = get_option('_crb_ppdb_token_bot_tg');
+		$akun_id = get_option('_crb_ppdb_username_tg');
+		if(!empty($token) && !empty($akun_id)){
+		    $nama_lengkap = $metas['first_name'][0];
+		    $tahun_pendaftaran = get_option('_crb_tahun_pendaftaran');
+			if(empty($tahun_pendaftaran)){
+			    $tahun_pendaftaran = date('Y');
+			}
+			$message = "<b>Pendaftar baru tahun pelajaran ".$tahun_pendaftaran.'/'.($tahun_pendaftaran+1)."</b>\n\n<b>Nama</b>: $nama_lengkap\n<b>No pendaftaran:</b> $no_pendaftaran\n<b>Asal Sekolah:</b> $asal_sekolah\n<b>NISN:</b> $nisn\n<b>Jalur Pendaftaran:</b> $jalur_pendaftaran\n<b>Tempat Tanggal Lahir:</b> $tempat_lahir, $tanggal_lahir\n<b>Jenis Kelamin:</b> $jenis_kelamin\n<b>Alamat Rumah:</b> $alamat\n<b>No. Tlp.:</b> $no_tlp\n<b>Ayah Kandung:</b> $nama_ayah\n<b>No. Ayah:</b> $no_ayah";
+			$ret = $this->functions->send_tg(array(
+				'token' => $token,
+				'id_akun' => $akun_id,
+				'message' => $message,
+				'parse_mode' => 'HTML'
+			));
+			print_r($ret);
+		}
+	}
 }
+
 $return = '';
 if(
 	empty($_GET) 
@@ -181,6 +216,7 @@ $th_admin = '';
 if (user_can( $current_user, 'administrator' )) {
 	$th_admin = '
 		<th>NISN</th>
+		<th>Jalur Pendaftaran</th>
 		<!-- <th>Alamat Sekolah</th> -->
 		<th>Tempat Tanggal Lahir</th>
 		<th>Jenis Kelamin</th>
@@ -219,7 +255,7 @@ $return .= '
 			<tr>
 				<th style="width: 150px;">No Pendaftaran</th>
 				<th>Nama</th>
-				<th style="width: 60%;">Asal Sekolah</th>
+				<th style="max-width: 60%;">Asal Sekolah</th>
 				'.$th_admin.'
 			</tr>
 		</thead>

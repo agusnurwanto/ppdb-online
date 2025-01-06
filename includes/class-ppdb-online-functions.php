@@ -559,6 +559,38 @@ class PPDB_Functions
         return $whatsappLink;
     }
 
+    function send_tg($options){
+        $login = false;
+        if(is_user_logged_in()){
+            $current_user = wp_get_current_user();
+            if($this->user_has_role($current_user->ID, 'administrator')){
+                $login = true;
+            }
+        }
+        $bot_tg = $options['token'];
+        $id_akun_tg = $options['id_akun'];
+        $parse_mode = 'HTML';
+        if(!empty($options['parse_mode'])){
+            $parse_mode = $options['parse_mode'];
+        }
+        $ret = array();
+        if(!empty($bot_tg) && !empty($id_akun_tg)){
+            $message = urlencode($options['message']);
+            $id_akun_tg = explode(',', $id_akun_tg);
+            foreach($id_akun_tg as $id_akun){
+                $url = "https://api.telegram.org/bot$bot_tg/sendMessage?parse_mode=$parse_mode&chat_id=$id_akun&text=$message";
+                $ret_url = file_get_contents($url);
+                if(true == $login){
+                    $ret[] = array(
+                        'return'=> $ret_url,
+                        'url'=> $url
+                    );
+                }
+            }
+        }
+        return $ret;
+    }
+
     function get_um_settings(){
         $meta_value = array(
             '_um_row_1' => array(
