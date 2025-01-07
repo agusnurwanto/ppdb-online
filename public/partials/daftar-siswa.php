@@ -11,8 +11,7 @@ if(!empty($_GET) && !empty($_GET['role'])){
 $users = get_users( array( 
 	'fields' => array( 'ID' ),
 	'role'	=> $default_role,
-	'meta_key'	=>  'no_pendaftaran',
-	'orderby'	=>  'meta_value_num',
+	'orderby'	=>  'ID',
 	'order'	=>  'ASC'
 ) );
 $option_ppdb = $this->functions->get_um_settings();
@@ -20,13 +19,44 @@ $option_ppdb = $this->functions->get_um_settings();
 $current_user = wp_get_current_user();
 $body = '';
 $cek_send = false;
+$no = 0;
+
+$id_ppdb = get_option('_crb_id_ppdb', date('Y'));
+$no_awal_pendaftar = get_option('_crb_no_awal_pendaftar', 1);
+$no_pendaftaran_otomatis = get_option('_crb_no_pendaftaran_otomatis', 'no');
+if($no_pendaftaran_otomatis == 'yes'){
+	$id_ppdb = date('Ymd');
+}
+
 foreach($users as $user_id){
+	$no++;
     $metas = get_user_meta( $user_id->ID);
 	// print_r($metas); die();
 	$no_pendaftaran = '';
 	if(!empty($metas['no_pendaftaran'])){
 	    $no_pendaftaran = $metas['no_pendaftaran'][0];
 	}
+
+	if(!empty($_GET) && !empty($_GET['reset_no_urut'])){
+		$no_pendaftaran_sistem = $id_ppdb.$this->functions->CekNull($no+($no_awal_pendaftar-1), 4);
+		if($no_pendaftaran != $no_pendaftaran_sistem){
+			// print_r($no_pendaftaran.' != '.$no_pendaftaran_sistem);
+			update_user_meta($user_id->ID, 'no_pendaftaran', $no_pendaftaran_sistem);
+			$no_pendaftaran = $no_pendaftaran_sistem;
+		}
+	}
+
+	if(!empty($_GET) && !empty($_GET['reset_nama'])){
+		$nama_sistem = ucwords(strtolower($metas['first_name'][0]));
+		if($metas['first_name'][0] != $nama_sistem){
+			wp_update_user([
+			    'ID' => $user_id->ID,
+			    'first_name' => $nama_sistem
+			]);
+			$metas['first_name'][0] = $nama_sistem;
+		}
+	}
+
 	$tempat_lahir = '';
 	if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat-lahir'])){
 	    $tempat_lahir = $metas['tempat-lahir'][0];

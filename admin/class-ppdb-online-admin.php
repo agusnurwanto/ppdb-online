@@ -444,10 +444,19 @@ class Ppdb_Online_Admin {
     	$no_pendaftaran = $id_ppdb.$this->CekNull($max_no+1, 4);
     	update_user_meta($user_id, 'no_pendaftaran', $no_pendaftaran);
 
+		$metas = get_user_meta( $user_id );
+    	$nama_sistem = ucwords(strtolower($metas['first_name'][0]));
+		if($metas['first_name'][0] != $nama_sistem){
+			wp_update_user([
+			    'ID' => $user_id,
+			    'first_name' => $nama_sistem
+			]);
+			$metas['first_name'][0] = $nama_sistem;
+		}
+
     	$token = get_option('_crb_ppdb_token_bot_tg');
     	$akun_id = get_option('_crb_ppdb_username_tg');
     	if(!empty($token) && !empty($akun_id)){
-    		$metas = get_user_meta( $user_id );
     		$option_ppdb = $this->functions->get_um_settings();
     		$tempat_lahir = '';
 			if(!empty($option_ppdb['tempat-lahir']) && !empty($metas['tempat-lahir'])){
