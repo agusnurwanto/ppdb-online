@@ -420,9 +420,15 @@ class Ppdb_Online_Admin {
     	}
 		
     	$zero = 0;
-	    $query = $wpdb->prepare( 
-	        "SELECT max( cast( meta_value as UNSIGNED ) ) FROM {$wpdb->usermeta} WHERE meta_key='no_pendaftaran' and meta_value like '".$id_ppdb."%'"
-	    );
+	    $query = $wpdb->prepare("
+	    	SELECT 
+	    		meta_value
+	    	FROM {$wpdb->usermeta} 
+	    	WHERE meta_key='no_pendaftaran' 
+	    		and meta_value like %s
+	    	 order by meta_value desc 
+	    	 limit 1
+	    ", $id_ppdb.'%');
     	$max_no = $wpdb->get_var( $query );
 
     	if(empty($max_no)){
@@ -490,6 +496,7 @@ class Ppdb_Online_Admin {
 			if(empty($tahun_pendaftaran)){
 			    $tahun_pendaftaran = date('Y');
 			}
+			// print_r($metas); echo $user_id;
 			$message = "<b>Pendaftar baru tahun pelajaran ".$tahun_pendaftaran.'/'.($tahun_pendaftaran+1)."</b>\n\n<b>Nama</b>: $nama_lengkap\n<b>No pendaftaran:</b> $no_pendaftaran\n<b>Asal Sekolah:</b> $asal_sekolah\n<b>NISN:</b> $nisn\n<b>Jalur Pendaftaran:</b> $jalur_pendaftaran\n<b>Tempat Tanggal Lahir:</b> $tempat_lahir, $tanggal_lahir\n<b>Jenis Kelamin:</b> $jenis_kelamin\n<b>Alamat Rumah:</b> $alamat\n<b>No. Tlp.:</b> $no_tlp\n<b>Ayah Kandung:</b> $nama_ayah\n<b>No. Ayah:</b> $no_ayah";
     		$this->functions->send_tg(array(
     			'token' => $token,
