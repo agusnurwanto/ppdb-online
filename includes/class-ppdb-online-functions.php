@@ -39,14 +39,14 @@ class PPDB_Functions
     {
         if (
             !empty($_GET)
-            && !empty($_GET['key_sakip'])
+            && !empty($_GET['key_ppdb'])
         ) {
-            $key = base64_decode($_GET['key_sakip']);
-            $decode = $this->decode_key($_GET['key_sakip']);
+            $key = base64_decode($_GET['key_ppdb']);
+            $decode = $this->decode_key($_GET['key_ppdb']);
             if (!empty($decode['skip'])) {
                 return;
             }
-            unset($_GET['key_sakip']);
+            unset($_GET['key_ppdb']);
 
             $key_db = md5(get_option(PPDB_APIKEY));
             $key = explode($key_db, $key);
@@ -176,9 +176,9 @@ class PPDB_Functions
             $options['custom_url'] = $custom_post->custom_url;
         }
         if (strpos($link, '?') === false) {
-            $link .= '?key_sakip=' . $this->gen_key(false, $options);
+            $link .= '?key_ppdb=' . $this->gen_key(false, $options);
         } else {
-            $link .= '&key_sakip=' . $this->gen_key(false, $options);
+            $link .= '&key_ppdb=' . $this->gen_key(false, $options);
         }
         return $link;
     }

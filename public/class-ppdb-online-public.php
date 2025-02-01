@@ -147,6 +147,7 @@ class Ppdb_Online_Public {
 	}
 
 	function menu_bukti_pendaftaran( $args ) {
+		$profile_id = um_profile_id();
 		$url_bukti_pendaftaran = 'Halaman bukti pendaftaran belum di setting. Harap hubungi administrator!';
 		$bukti_pendaftaran = $this->functions->generatePage(array(
 			'nama_page' => 'Bukti Pendaftaran Siswa Baru',
@@ -156,7 +157,7 @@ class Ppdb_Online_Public {
 		));
 		$url_bukti_pendaftaran = '
 		<div style="text-align: center; padding: 10px;">
-			<a href="'.$this->functions->add_param_get($bukti_pendaftaran['url'], '&user_id='.get_current_user_id()).'" target="_blank">
+			<a href="'.$this->functions->add_param_get($bukti_pendaftaran['url'], '&user_id='.$profile_id).'" target="_blank">
 				<button class="button button-primary">Cetak Bukti Pendaftaran</button>
 			</a>
 		</div>

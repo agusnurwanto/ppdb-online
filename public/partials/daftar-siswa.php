@@ -17,6 +17,12 @@ $users = get_users( array(
 ) );
 $option_ppdb = $this->functions->get_um_settings();
 
+$bukti_pendaftaran = $this->functions->generatePage(array(
+	'nama_page' => 'Bukti Pendaftaran Siswa Baru',
+	'content' => '[bukti-pendaftaran]',
+	'show_header' => 1,
+	'post_status' => 'private'
+));
 $current_user = wp_get_current_user();
 $body = '';
 foreach($users as $user_id){
@@ -111,7 +117,7 @@ foreach($users as $user_id){
 	$data_admin = '';
 	if (user_can( $current_user, 'administrator' )) {
 		$data_admin = '
-			<td style="text-align: center;">'.$nisn.'</td>
+			<td style="text-align: center;"><a href="'.$this->functions->add_param_get($bukti_pendaftaran['url'], '&user_id='.$user_id->ID).'" target="_blank">'.$nisn.'</a></td>
 			<td style="text-align: left;">'.$alamat_sekolah.'</td>
 			<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
