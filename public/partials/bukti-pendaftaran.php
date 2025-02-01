@@ -24,8 +24,8 @@ if(!empty($user_meta['no_pendaftaran'])){
     $no_pendaftaran = $user_meta['no_pendaftaran'][0];
 }
 $tempat_lahir = '';
-if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat_lahir'])){
-    $tempat_lahir = $user_meta['tempat_lahir'][0];
+if(!empty($option_ppdb['tempat-lahir']) && !empty($user_meta['tempat-lahir'])){
+    $tempat_lahir = $user_meta['tempat-lahir'][0];
 }
 $tanggal_lahir = '';
 if(!empty($option_ppdb['tanggal-lahir']) && !empty($user_meta['tanggal-lahir'])){
@@ -51,6 +51,11 @@ if(!empty($option_ppdb['alamat-calon-siswa']) && !empty($user_meta['alamat-calon
 $no_tlp = '';
 if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
     $no_tlp = $user_meta['phone_number'][0];
+}
+
+$tahun_pendaftaran = get_option('_crb_tahun_pendaftaran');
+if(empty($tahun_pendaftaran)){
+    $tahun_pendaftaran = date('Y');
 }
 ?>
 <div id="wrap-pendaftaran">
@@ -156,7 +161,7 @@ if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
                 <br>
                 <font size="3" style="font-size: 12pt">
                     <b>
-                        TAHUN PELAJARAN 2020/2021
+                        TAHUN PELAJARAN <?php echo $tahun_pendaftaran.'/'.($tahun_pendaftaran+1); ?>
                     </b>
                 </font>
             </font>
@@ -315,7 +320,7 @@ if(!empty($option_ppdb['phone_number']) && !empty($user_meta['phone_number'])){
                     <p lang="en-US" style="margin-bottom: 0in; text-align: center">
                         <font face="Times New Roman, serif">
                             <font size="3" style="font-size: 12pt">
-                                ................., ..........................2020
+                                ................., ..........................<?php echo $tahun_pendaftaran; ?>
                                 <br/>
                                 <br/>
                                 Pendaftar
