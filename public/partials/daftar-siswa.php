@@ -158,14 +158,9 @@ foreach($users as $user_id){
 	$data_admin = '';
 	if (user_can( $current_user, 'administrator' )) {
 		$data_admin = '
-<<<<<<< HEAD
 			<td style="text-align: center;"><a href="'.$this->functions->add_param_get($bukti_pendaftaran['url'], '&user_id='.$user_id->ID).'" target="_blank">'.$nisn.'</a></td>
-			<td style="text-align: left;">'.$alamat_sekolah.'</td>
-=======
-			<td style="text-align: center;">'.$nisn.'</td>
     		<td style="text-align: left;">'.$jalur_pendaftaran.'</td>
 			<!-- <td style="text-align: left;">'.$alamat_sekolah.'</td> -->
->>>>>>> 6a7676f13599d56707baefca89e77bcc7c56b8b1
 			<td style="text-align: left;">'.$tempat_lahir.', '.$tanggal_lahir.'</td>
 			<td style="text-align: center;">'.$jenis_kelamin.'</td>
 			<td style="text-align: left;">'.$alamat.'</td>
